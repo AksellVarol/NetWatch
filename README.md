@@ -2,10 +2,10 @@
 
 اپلیکیشن اندروید (Kotlin) برای بررسی وضعیت اینترنت، تست پینگ و کیفیت اتصال، مانیتورینگ گیمینگ و تشخیص نوع اختلال.
 
-- **دانلود مستقیم APK (نسخه ۲.۰):**
+- **دانلود مستقیم APK (نسخه ۲.۱):**
   [`NetWatch.apk`](https://raw.githubusercontent.com/AksellVarol/NetWatch/main/NetWatch.apk)
 - پکیج: `com.aksell.netwatch` — حداقل اندروید ۵.۰ (API 21)، هدف اندروید ۱۴
-- نسخه فعلی: **v2.0** (versionCode 12)
+- نسخه فعلی: **v2.1** (versionCode 13)
 
 ## قابلیت‌ها
 
