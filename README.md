@@ -2,21 +2,21 @@
 
 اپلیکیشن اندروید (Kotlin) برای بررسی وضعیت اینترنت، تست پینگ و کیفیت اتصال، مانیتورینگ گیمینگ و تشخیص نوع اختلال — با چهار موتور داخلی مستقل: اندازه‌گیری، مانیتورینگ، تحلیل و تاریخچه.
 
-- **نسخه فعلی: v2.9.2** (versionCode 26) — پکیج `com.aksell.netwatch` — حداقل اندروید ۵.۰ (API 21)، هدف اندروید ۱۴
-- **دانلود مستقیم APK (نسخه ۲.۹.۲):**
+- **نسخه فعلی: v2.9.3** (versionCode 27) — پکیج `com.aksell.netwatch` — حداقل اندروید ۵.۰ (API 21)، هدف اندروید ۱۴
+- **دانلود مستقیم APK (نسخه ۲.۹.۳):**
 
   [`NetWatch.apk`](https://raw.githubusercontent.com/AksellVarol/NetWatch/main/NetWatch.apk)
 
-- حجم APK: **2,997,646 بایت**
+- حجم APK: **3,005,838 بایت**
 - SHA-256 کامل فایل:
 
   ```
-  fdba1226ec28f8110883fec6ae8b34bfeb98eb6782b07130d137aa1434598f14
+  353cdf12ab47217ee93b25117145b0e813f83ee2148f6a15992ba6ed3d0c8ceb
   ```
 
-- سورس کامل نسخه ۲.۹.۲ (۶۶ فایل، با ساختار پوشه‌ها):
-  - [`NetWatch-source-v2.9.2.zip`](https://raw.githubusercontent.com/AksellVarol/NetWatch/main/NetWatch-source-v2.9.2.zip) — درخت کامل سورس (Kotlin + Manifest + layouts + values + drawable XML)
-  - [`NetWatch-source-v2.9.2.txt`](https://raw.githubusercontent.com/AksellVarol/NetWatch/main/NetWatch-source-v2.9.2.txt) — همه فایل‌ها در یک فایل متنی برای خواندن آنلاین
+- سورس کامل نسخه ۲.۹.۳ (۶۶ فایل، با ساختار پوشه‌ها):
+  - [`NetWatch-source-v2.9.3.zip`](https://raw.githubusercontent.com/AksellVarol/NetWatch/main/NetWatch-source-v2.9.3.zip) — درخت کامل سورس (Kotlin + Manifest + layouts + values + drawable XML)
+  - [`NetWatch-source-v2.9.3.txt`](https://raw.githubusercontent.com/AksellVarol/NetWatch/main/NetWatch-source-v2.9.3.txt) — همه فایل‌ها در یک فایل متنی برای خواندن آنلاین
 
 ## قابلیت‌ها
 
@@ -42,6 +42,18 @@
 | HistoryEngine | تنها API ذخیره و بازیابی تاریخچه (SQLite) |
 
 بدون وابستگی جدید: بدون Coroutines، بدون Room، بدون Chromium، بدون موتور بازی یا هوش مصنوعی. همه عملیات شبکه روی یک Executor مدیریت‌شده (۴ نخ) اجرا می‌شوند؛ هیچ عملیات شبکه‌ای روی Main Thread نیست.
+
+## تغییرات نسخه ۲.۹.۲ به ۲.۹.۳
+
+| فایل | تغییر |
+|---|---|
+| `History.kt` | اعتبارسنجی نوع واقعی برای آخرین فیلدهای باقی‌مانده Restore: `version` حالا با `isInt` بررسی می‌شود — چون `restoreFromJson` آن را با `optInt` می‌خواند و `optInt` رشته `"1"` را به‌عنوان عدد ۱ می‌پذیرد؛ و ۷ فیلد متنی سطح بالا (`log` ،`timeline` ،`hourly` ،`blackbox` ،`gaming_log` ،`gaming_matches` ،`spikes`) حالا با `isStr` بررسی می‌شوند — چون بعد از تراکنش با `optString` در SharedPreferences ذخیره می‌شدند و `optString` عدد و آبجکت را بی‌صدا با `toString()` به رشته تبدیل می‌کند. نبودن فیلد یعنی پیش‌فرض (رفتار قبلی حفظ شد)؛ فیلد حاضر با نوع اشتباه پیش از هر تغییر دیتابیس یا تنظیمات رد می‌شود. حالا `validateRestoreJson` در مجموع ۵۳ بررسی `checkType` دارد و هیچ Getterای در آن نیست |
+| `LabActivity.kt` | ۹ تست منفی جدید On-Device (نوشته‌شده، اجرا‌نشده): `version` به‌صورت String `"1"`، `version` به‌صورت Boolean، `log` عددی، `timeline` آبجکت، `hourly` عددی، `blackbox` بولین، `gaming_log` عددی، `gaming_matches` آبجکت، `spikes` عددی — هر کدام جداگانه بررسی می‌کند که restore با خطای دقیقِ نام فیلد (یعنی اعتبارسنجی پیش از تراکنش) رد شود و دیتابیس، تنظیمات اصلی و تنظیمات گیمینگ قبلی سالم بمانند (مقایسه مقدار همان فیلد قبل و بعد) |
+| `AndroidManifest.xml` | versionCode 27 / versionName 2.9.3 |
+
+حجم APK از ۲٬۹۹۷٬۶۴۶ بایت (۲.۹.۲) به ۳٬۰۰۵٬۸۳۸ بایت (۲.۹.۳) رسید: ‎+۸٬۱۹۲ بایت (‎+۰٫۲۷٪).
+
+**تست JVM نسخه ۲.۹.۳: ۶۰ از ۶۰ PASS (FAIL 0، NOT TESTED 0)** — همان ۶۰ تست قبلی، بدون تست جدید JVM (اعتبارسنجی Restore روی JVM قابل اجرا نیست چون org.json در android.jar فقط Stub است؛ تست‌های منفی جدید فقط روی گوشی قابل اجرا هستند و اجرا نشده‌اند). تست Race در ۲.۹.۲ با کد v2.9 Fail و با اصلاح Pass شد.
 
 ## تغییرات نسخه ۲.۹.۱ به ۲.۹.۲
 
@@ -129,6 +141,7 @@
 - **تست‌های جدید ۲.۹ در LAB (نوشته‌شده، اجرا‌نشده):** ۶۰۰۰ نمونه + ۶۰۰۰ نقطه پینگ با Timestamp ثابت، Backup/Restore با بیش از ۵۰۰۰ رکورد، Restore با یک ردیف خراب — این تست‌ها در کد LAB نوشته شده‌اند ولی فقط روی گوشی واقعی قابل اجرا هستند و هنوز اجرا نشده‌اند
 - **تست‌های جدید ۲.۹.۱ در LAB (نوشته‌شده، اجرا‌نشده):** ۵ تست Restore — settings رشته، فیلد settings با نوع اشتباه، last_check رشته، score_total خراب، gaming session با score خراب — هر کدام جداگانه بررسی می‌کنند که restore رد شود و داده + تنظیمات قبلی سالم بمانند؛ فقط روی گوشی واقعی قابل اجرا هستند و هنوز اجرا نشده‌اند
 - **تست‌های جدید ۲.۹.۲ در LAB (نوشته‌شده، اجرا‌نشده):** ۶ تست منفی Restore — عدد به‌شکل String در `samples.time`، Boolean به‌جای عدد در `samples.ok`، عدد به‌شکل String در فیلد اختیاری `samples.avg_ms`، عدد به‌شکل String در `ping_points.ms`، String به‌جای Boolean در `settings.live_ping`، Boolean به‌جای عدد در `settings.interval_sec` — هر کدام بررسی می‌کند که restore با خطای دقیقِ نام فیلد (یعنی اعتبارسنجی پیش از تراکنش) رد شود و داده + تنظیمات قبلی سالم بمانند؛ فقط روی گوشی واقعی قابل اجرا هستند و هنوز اجرا نشده‌اند
+- **تست‌های جدید ۲.۹.۳ در LAB (نوشته‌شده، اجرا‌نشده):** ۹ تست منفی Restore — `version` به‌صورت String `"1"`، `version` به‌صورت Boolean، `log` عددی، `timeline` آبجکت، `hourly` عددی، `blackbox` بولین، `gaming_log` عددی، `gaming_matches` آبجکت، `spikes` عددی — هر کدام بررسی می‌کند که restore با خطای دقیقِ نام فیلد رد شود و دیتابیس، تنظیمات اصلی و تنظیمات گیمینگ قبلی سالم بمانند (مقایسه مقدار همان فیلد قبل و بعد)؛ فقط روی گوشی واقعی قابل اجرا هستند و هنوز اجرا نشده‌اند
 - استرس ۱/۶/۲۴ ساعته؛ مصرف باتری و CPU درازمدت؛ نشت حافظه؛ رندر PDF فارسی روی گوشی
 - DoT ،IPv6 و Captive Portal روی شبکه واقعی ایران؛ رسم نمودار و چرخش صفحه روی گوشی واقعی
 - مهاجرت داده قدیمی ۳ فیلدی به SQLite بعد از به‌روزرسانی از نسخه ۲.۵
