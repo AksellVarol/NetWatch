@@ -2,21 +2,21 @@
 
 اپلیکیشن اندروید (Kotlin) برای بررسی وضعیت اینترنت، تست پینگ و کیفیت اتصال، مانیتورینگ گیمینگ و تشخیص نوع اختلال — با چهار موتور داخلی مستقل: اندازه‌گیری، مانیتورینگ، تحلیل و تاریخچه.
 
-- **نسخه فعلی: v2.9.3** (versionCode 27) — پکیج `com.aksell.netwatch` — حداقل اندروید ۵.۰ (API 21)، هدف اندروید ۱۴
-- **دانلود مستقیم APK (نسخه ۲.۹.۳):**
+- **نسخه فعلی: v2.9.4** (versionCode 28) — پکیج `com.aksell.netwatch` — حداقل اندروید ۵.۰ (API 21)، هدف اندروید ۱۴
+- **دانلود مستقیم APK (نسخه ۲.۹.۴):**
 
   [`NetWatch.apk`](https://raw.githubusercontent.com/AksellVarol/NetWatch/main/NetWatch.apk)
 
-- حجم APK: **3,005,838 بایت**
+- حجم APK: **3,132,814 بایت**
 - SHA-256 کامل فایل:
 
   ```
-  353cdf12ab47217ee93b25117145b0e813f83ee2148f6a15992ba6ed3d0c8ceb
+  4bd291bd9c6ee7746475e46ba3f065873de024f427913b333970cdeff676727f
   ```
 
-- سورس کامل نسخه ۲.۹.۳ (۶۶ فایل، با ساختار پوشه‌ها):
-  - [`NetWatch-source-v2.9.3.zip`](https://raw.githubusercontent.com/AksellVarol/NetWatch/main/NetWatch-source-v2.9.3.zip) — درخت کامل سورس (Kotlin + Manifest + layouts + values + drawable XML)
-  - [`NetWatch-source-v2.9.3.txt`](https://raw.githubusercontent.com/AksellVarol/NetWatch/main/NetWatch-source-v2.9.3.txt) — همه فایل‌ها در یک فایل متنی برای خواندن آنلاین
+- سورس کامل نسخه ۲.۹.۴ (۶۷ فایل، با ساختار پوشه‌ها):
+  - [`NetWatch-source-v2.9.4.zip`](https://raw.githubusercontent.com/AksellVarol/NetWatch/main/NetWatch-source-v2.9.4.zip) — درخت کامل سورس (Kotlin + Manifest + layouts + values + drawable XML)
+  - [`NetWatch-source-v2.9.4.txt`](https://raw.githubusercontent.com/AksellVarol/NetWatch/main/NetWatch-source-v2.9.4.txt) — همه فایل‌ها در یک فایل متنی برای خواندن آنلاین
 
 ## قابلیت‌ها
 
@@ -42,6 +42,33 @@
 | HistoryEngine | تنها API ذخیره و بازیابی تاریخچه (SQLite) |
 
 بدون وابستگی جدید: بدون Coroutines، بدون Room، بدون Chromium، بدون موتور بازی یا هوش مصنوعی. همه عملیات شبکه روی یک Executor مدیریت‌شده (۴ نخ) اجرا می‌شوند؛ هیچ عملیات شبکه‌ای روی Main Thread نیست.
+
+## تغییرات نسخه ۲.۹.۳ به ۲.۹.۴
+
+مرحله ۲ امنیت Restore — فقط دو P0 تأییدشده (P0-1 اتمیک‌بودن Restore، P0-2 سقف حجم + پردازش پس‌زمینه). هیچ قابلیت جدیدی اضافه نشده و ظاهر اپ تغییر نکرده است.
+
+| فایل | تغییر |
+|---|---|
+| `HistoryDb.kt` | نسخه دیتابیس ۱ ← ۲؛ جدول `meta` (نشانگر Migration) در `onCreate` و `onUpgrade`؛ سازنده با نام فایل پارامتری شد تا پایگاه موقت (`netwatch.db.staging`) با همان اسکیما ساخته شود؛ `getDb()` / `getReadDb()` تنها راه گرفتن اتصال‌اند و آخرین اتصال را ثبت می‌کنند تا `closeAndReset()` بتواند بسته‌شدن واقعی آن را اثبات کند؛ `closeStaging()` و بررسی فایل جانبی (`liveSidecarExists`) اضافه شد. Journal Mode برابر DELETE است (هیچ `enableWriteAheadLogging` / WAL در اپ نیست — با grep تأیید شد)، پس بستن آخرین اتصال همان Checkpoint است |
+| `RestoreStream.kt` | **فایل جدید.** Bounded Reader (سقف ۵۰ مگابایت، تکه‌های ۶۴ کیلوبایت، رد پیش از خواندن و حین خواندن)؛ پارسر جریانی `JsonReader` با `setLenient(false)` که مستقیم در پایگاه موقت می‌نویسد (تراکنش‌های ۵٬۰۰۰ ردیفی) و بعد `PRAGMA integrity_check` + شمارش هر جدول را بررسی می‌کند؛ هر ۵۳ بررسی اعتبارسنجی قبلی حفظ شده‌اند — عدد صحیح باید لیترال صحیح باشد (`"1"` قبول؛ `"1.0"`، `"1e3"`، `"01"`، `"+1"`، `"\"1\""` رد)؛ فیلد تکراری در یک آبجکت رد می‌شود (سخت‌گیرانه‌تر از JSONObject)؛ فیلد ناشناخته Skip می‌شود (مثل قبل)؛ JSON ناقص و داده اضافی بعد از آبجکت رد می‌شوند. توابع خالص `readBounded`، `isIntegerLiteral`، `decideRecovery` و `exceedsCap` روی JVM تست‌پذیرند |
+| `History.kt` | **Restore اتمیک (P0-1):** فاز A استریم + اعتبارسنجی + درج در staging (بدون قفل، داده زنده دست نخورده)؛ فاز B با ژورنال دوحالته `STARTED` / `COMMITTED` (با Snapshot همه کلیدهای تنظیماتی که Restore می‌نویسد، با `commit()` همگام) + بستن اتصال + دو Rename اتمیک (`live → ‎.old`، `staging → live`) + نوشتن تنظیمات با `commit()` + `COMMITTED` فقط بعد از همه تغییرات. `STARTED` همیشه یعنی Rollback؛ `COMMITTED` فقط Roll-forward. **Recovery مرکزی:** `ensureRecovered` / `withGate` روی `restoreLock`؛ همه متدهای عمومی History در Gate هستند؛ ترتیب قفل همیشه `restoreLock → dbLock` است. **Migration:** نشانگر در جدول `meta`؛ اگر اجرای قبلی قابل اثبات نباشد، همه ردیف‌های قدیمی درج می‌شوند (بدون Dedup) و Marker در همان تراکنش نوشته می‌شود — **محدودیت مستند:** در پنجره باریک Crash (تراکنش قدیمی Commit شد ولی نوشتن Flag با `apply()` از دست رفت) ممکن است ردیف‌های یکسان تکراری شوند؛ داده معتبر هرگز حذف یا ادغام نمی‌شود. **P0-2:** سقف `RESTORE_MAX_BYTES = 50MB`؛ همه ورودی‌های Restore (فایل محلی، SAF، رشته) از مسیر جریانی می‌گذرند؛ `readBytes()` / `readText()` برای Restore حذف شد. **Hookهای تست:** `testFailRenameStep`، `testFailJournalWrite`، `testParkPoint` (فقط LAB، در Production همیشه null/false) |
+| `NetExecutor.kt` | Pool اختصاصی تک‌نخی `netwatch-restore` + `submitRestore`؛ همه عملیات فایل بکاپ/ریستور/خروجی روی آن اجرا می‌شوند، نه روی Main Thread و نه روی Pool شبکه |
+| `MainActivity.kt` | `ensureRecovered` در اولین خط `onCreate`؛ بکاپ/ریستور/خروجی PDF و SAF روی Executor اختصاصی (با Toast نتیجه)؛ `dns_rounds` و `alerts_on` از طریق `History` خوانده/نوشته می‌شوند؛ دکمه Restore حالا دلیل دقیق شکست را نشان می‌دهد (به‌جای «پشتیبانی پیدا نشد» برای هر خطا) |
+| `MonitorService.kt` | `ensureRecovered` در اولین خط `onCreate`؛ `last_pct` و `alerts_on` از طریق `History` |
+| `NetWatchWidget.kt` | `ensureRecovered` در ابتدای `updateOne` (هم `onUpdate` و هم `refreshAll` را پوشش می‌دهد) |
+| `GamingActivity.kt`، `LabActivity.kt` | `ensureRecovered` در اولین خط `onCreate`؛ دو دسترسی مستقیم LabActivity به دیتابیس (`HistoryDb.get(...)`) به `getDb()` تغییر کردند و در `withGate` قرار گرفتند؛ تست >۵۰۰۰ ردیف بازسازی شد (تراکنش Rollback دیگر ممکن نیست چون Restore فایل دیتابیس را جایگزین می‌کند — ردیف‌های تست حالا در یک تراکنش Commitشده درج و صریحاً با source/ms/loss حذف می‌شوند)؛ مهلت Unit از ۶۰ به ۲۴۰ ثانیه رسید (تست بکاپ بزرگ) |
+| `Advanced.kt`، `Quality.kt`، `Gaming.kt` | `last_ip`، `last_fingerprint` و پنج متد تنظیمات گیمینگ از طریق `History` (در Gate) خوانده/نوشته می‌شوند |
+| `Lab.kt` | ۳۴ تست JVM جدید (۵ Bounded Reader، ۱۶ لیترال صحیح، ۸ جدول تصمیم Recovery، ۴ سقف حجم، ۱ ثابت سقف) — مجموع JVM به ۹۴ تست رسید |
+| `LabActivity.kt` | تست‌های On-Device جدید (نوشته‌شده، **اجرا‌نشده**): Fixture Suite پارسر جریانی (۲۴ فیکسچر، فقط روی staging)، تزریق خطای Rename اول/دوم و نوشتن ژورنال، رد فایل بیش از سقف (با سقف کوچک تست)، توقف و ادامه Parse، شبیه‌سازی Crash بین دو Rename (بازیابی واقعی با ژورنال STARTED + ‎.old)، Migration با رکوردهای یکسان، بکاپ بزرگ ~۲۹ مگابایت با اندازه‌گیری Heap/PSS، و یک ورودی NOT TESTED برای Kill Test دستی (Force-Stop وسط Restore) |
+| `AndroidManifest.xml` | versionCode 28 / versionName 2.9.4 |
+
+حجم APK از ۳٬۰۰۵٬۸۳۸ بایت (۲.۹.۳) به ۳٬۱۳۲٬۸۱۴ بایت (۲.۹.۴) رسید: ‎+۱۲۶٬۹۷۶ بایت (‎+۴٫۲٪) — عمدتاً پارسر جریانی و منطق ژورنال/بازیابی.
+
+**تست JVM نسخه ۲.۹.۴: ۹۴ از ۹۴ PASS (FAIL 0، NOT TESTED 0)** — ۶۰ تست قبلی به‌عنوان رگرسیون حفظ شدند (بدون تغییر) + ۳۴ تست جدید. تست‌های On-Device جدید فقط نوشته شده‌اند و اجرا نشده‌اند؛ تست‌های LAB روی گوشی واقعی هنوز NOT TESTED هستند (نصب، Live Ping، ویجت، همه تست‌های LAB، و تست Kill دستی).
+
+**محدودیت مستند Migration (اولویت حفظ داده):** اگر Migration قدیمی تراکنش خود را Commit کرده باشد ولی نوشتن Flag آن با `apply()` در پنجره Crash از دست رفته باشد، Migration جدید نمی‌تواند اجرای قبلی را اثبات کند و برای اینکه داده‌ای از دست نرود، همه ردیف‌های قدیمی را دوباره درج می‌کند. در این حالت باریک، ردیف‌هایی با محتوای کاملاً یکسان تکراری می‌شوند. این ردیف‌ها اندازه‌گیری‌های یکسان‌اند و به‌عنوان بهای هرگز از دست نرفتن داده پذیرفته شده‌اند. Migration هیچ داده معتبری را حذف یا ادغام نمی‌کند.
+
+**موارد باقی‌مانده مرحله ۲ (بعد از این نسخه، با تأیید جداگانه):** HMAC برای بکاپ‌های جدید (با هشدار پیش از Restore برای بکاپ‌های قدیمی بدون HMAC)، پیام‌های خطای مجزا، و جداسازی تست‌های LAB از داده واقعی کاربر.
 
 ## تغییرات نسخه ۲.۹.۲ به ۲.۹.۳
 
