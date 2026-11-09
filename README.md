@@ -2,21 +2,21 @@
 
 اپلیکیشن اندروید (Kotlin) برای بررسی وضعیت اینترنت، تست پینگ و کیفیت اتصال، مانیتورینگ گیمینگ و تشخیص نوع اختلال — با چهار موتور داخلی مستقل: اندازه‌گیری، مانیتورینگ، تحلیل و تاریخچه.
 
-- **نسخه فعلی: v2.9.1** (versionCode 25) — پکیج `com.aksell.netwatch` — حداقل اندروید ۵.۰ (API 21)، هدف اندروید ۱۴
-- **دانلود مستقیم APK (نسخه ۲.۹.۱):**
+- **نسخه فعلی: v2.9.2** (versionCode 26) — پکیج `com.aksell.netwatch` — حداقل اندروید ۵.۰ (API 21)، هدف اندروید ۱۴
+- **دانلود مستقیم APK (نسخه ۲.۹.۲):**
 
   [`NetWatch.apk`](https://raw.githubusercontent.com/AksellVarol/NetWatch/main/NetWatch.apk)
 
-- حجم APK: **2,989,454 بایت**
+- حجم APK: **2,997,646 بایت**
 - SHA-256 کامل فایل:
 
   ```
-  83307be5453384aec14e58c43530d61a39f27f5a5028e7e953d89a9fcb2355f5
+  fdba1226ec28f8110883fec6ae8b34bfeb98eb6782b07130d137aa1434598f14
   ```
 
-- سورس کامل نسخه ۲.۹.۱ (۶۶ فایل، با ساختار پوشه‌ها):
-  - [`NetWatch-source-v2.9.1.zip`](https://raw.githubusercontent.com/AksellVarol/NetWatch/main/NetWatch-source-v2.9.1.zip) — درخت کامل سورس (Kotlin + Manifest + layouts + values + drawable XML)
-  - [`NetWatch-source-v2.9.1.txt`](https://raw.githubusercontent.com/AksellVarol/NetWatch/main/NetWatch-source-v2.9.1.txt) — همه فایل‌ها در یک فایل متنی برای خواندن آنلاین
+- سورس کامل نسخه ۲.۹.۲ (۶۶ فایل، با ساختار پوشه‌ها):
+  - [`NetWatch-source-v2.9.2.zip`](https://raw.githubusercontent.com/AksellVarol/NetWatch/main/NetWatch-source-v2.9.2.zip) — درخت کامل سورس (Kotlin + Manifest + layouts + values + drawable XML)
+  - [`NetWatch-source-v2.9.2.txt`](https://raw.githubusercontent.com/AksellVarol/NetWatch/main/NetWatch-source-v2.9.2.txt) — همه فایل‌ها در یک فایل متنی برای خواندن آنلاین
 
 ## قابلیت‌ها
 
@@ -42,6 +42,18 @@
 | HistoryEngine | تنها API ذخیره و بازیابی تاریخچه (SQLite) |
 
 بدون وابستگی جدید: بدون Coroutines، بدون Room، بدون Chromium، بدون موتور بازی یا هوش مصنوعی. همه عملیات شبکه روی یک Executor مدیریت‌شده (۴ نخ) اجرا می‌شوند؛ هیچ عملیات شبکه‌ای روی Main Thread نیست.
+
+## تغییرات نسخه ۲.۹.۱ به ۲.۹.۲
+
+| فایل | تغییر |
+|---|---|
+| `NetworkEngine.kt` | ایزوله‌سازی تست Race: متغیر `testGateKey` اضافه شد — gate فقط برای Callableای که key آن با `testGateKey` برابر است فعال می‌شود؛ هر Callable دیگر (بررسی پس‌زمینه، سرویس، Live Ping) gate را کاملاً رد می‌کند: نه سیگنال تست را فعال می‌کند و نه در gate معطل می‌شود. Hookها فقط در `Lab.kt` (تست LAB) نوشته می‌شوند و هیچ مسیر اجرایی دیگری در کد آن‌ها را فعال نمی‌کند؛ مقدار پیش‌فرض هر سه null است و Callable بدون gate هیچ هزینه‌ای نمی‌پردازد |
+| `Lab.kt` | تست Race به‌روز شد: gate را با `testGateKey` می‌بندد و در `finally` هر سه Hook را پاک می‌کند؛ یک فاز ایزوله‌سازی اضافه شد: در حالی که Callable مربوط به gateKey در gate متوقف است، یک Callable با key متفاوت باید آزادانه اجرا شود (اثبات می‌کند بررسی پس‌زمینه نه تست را به‌اشتباه عبور می‌دهد و نه خودش معطل می‌شود). تست با کد v2.9 (بدون بررسی مالکیت) اجرا و **Fail** شد — یعنی تست واقعاً باگ را می‌گیرد؛ با اصلاح ۶۰/۶۰ PASS است |
+| `History.kt` | اعتبارسنجی نوع واقعی در همه بخش‌های Restore: دیگر هیچ Getterای مثل `getLong`/`getInt`/`getDouble`/`optDouble` در `validateRestoreJson` نیست (صفر Getter — ۴۵ بررسی `checkType`)، چون آن Getterها رشته عددی `"123"` را به‌عنوان عدد می‌پذیرند و Double را کوتاه می‌کنند. حالا `isInt` (فقط Int/Long) برای فیلدهای عدد صحیح، `isNum` (هر Number) برای فیلدهای Double، `isBool` و `isStr` برای بقیه — در همه بخش‌ها: samples، ping_points، loss_points، gaming_sessions (شامل samples داخلی)، settings و last_check. نبودن فیلد اختیاری یعنی پیش‌فرض؛ null فقط برای `score` و `score_total` معتبر است (بکاپ دقیقاً همان‌جا null می‌نویسد) و در بقیه فیلدها nullِ حاضر رد می‌شود. هیچ داده‌ای پیش از تکمیل اعتبارسنجی وارد تراکنش نمی‌شود |
+| `LabActivity.kt` | ۶ تست منفی جدید On-Device (نوشته‌شده، اجرا‌نشده): عدد به‌شکل String در `samples.time`، Boolean به‌جای عدد در `samples.ok`، عدد به‌شکل String در فیلد اختیاری `samples.avg_ms`، عدد به‌شکل String در `ping_points.ms`، String به‌جای Boolean در `settings.live_ping`، Boolean به‌جای عدد در `settings.interval_sec` — هر کدام جداگانه بررسی می‌کند که restore با خطای دقیقِ «فیلد …» (یعنی اعتبارسنجی پیش از تراکنش) رد شود و داده + تنظیمات قبلی سالم بمانند |
+| `AndroidManifest.xml` | versionCode 26 / versionName 2.9.2 |
+
+حجم APK از ۲٬۹۸۹٬۴۵۴ بایت (۲.۹.۱) به ۲٬۹۹۷٬۶۴۶ بایت (۲.۹.۲) رسید: ‎+۸٬۱۹۲ بایت (‎+۰٫۲۷٪).
 
 ## تغییرات نسخه ۲.۹ به ۲.۹.۱
 
@@ -106,7 +118,7 @@
 
 ## گزارش تست
 
-**تست‌های Unit روی JVM: ۶۰ از ۶۰ PASS (FAIL 0، NOT TESTED 0)** — شامل ۵۹ تست نسخه ۲.۹ و ۱ تست جدید نسخه ۲.۹.۱: Race قطعی لغو QUEUED در شروع Callable (با gate — Callable در gate متوقف شد، cancel ورودی را حذف کرد، بعد از بازشدن gate، task اجرا نشد). این تست با کد v2.9 (بدون بررسی مالکیت) اجرا شد و **Fail** شد (۵۹/۶۰ — فقط همین تست)، پس واقعاً باگ را می‌گیرد؛ با اصلاح ۶۰/۶۰ PASS است. تست Cancellation هم اصلاح شد: قبل از لغو صبر می‌کند تا وظیفه واقعاً شروع شده باشد. تست Unit جایگزین تست واقعی شبکه نیست.
+**تست‌های Unit روی JVM: ۶۰ از ۶۰ PASS (FAIL 0، NOT TESTED 0)** — شامل ۵۹ تست نسخه ۲.۹ و ۱ تست Race نسخه ۲.۹.۲ (به‌روز شده با gate محدود به key و فاز ایزوله‌سازی: Callable مربوط به gateKey در gate متوقف شد، یک Callable دیگر با key متفاوت آزادانه اجرا شد، cancel ورودی را حذف کرد، بعد از بازشدن gate، task اجرا نشد). این تست با کد v2.9 (بدون بررسی مالکیت — gate محدود به key حفظ شده بود) اجرا شد و **Fail** شد (۵۹/۶۰ — فقط همین تست)، پس واقعاً باگ را می‌گیرد؛ با اصلاح ۶۰/۶۰ PASS است. تست Cancellation در ۲.۹.۱ اصلاح شد: قبل از لغو صبر می‌کند تا وظیفه واقعاً شروع شده باشد. تست Unit جایگزین تست واقعی شبکه نیست.
 
 نکته: تست چرخه‌ها در JVM پروب‌ها را با شبکه واقعی اجرا می‌کند، ولی در این محیط سندباکس پروب‌ها سریع ناموفق می‌شوند؛ آن‌چه تست می‌سنجد فقط تعداد نخ‌هاست، نه موفقیت پروب‌ها — و نتیجه آن PASS است.
 
@@ -116,6 +128,7 @@
 - همه تست‌های On-Device در LAB (History Round-trip، Backup Round-trip، Corrupt Restore، Widget Consistency، فیلتر بازه ۲.۸) و بخش‌های Integration / Cross / Stress روی دستگاه
 - **تست‌های جدید ۲.۹ در LAB (نوشته‌شده، اجرا‌نشده):** ۶۰۰۰ نمونه + ۶۰۰۰ نقطه پینگ با Timestamp ثابت، Backup/Restore با بیش از ۵۰۰۰ رکورد، Restore با یک ردیف خراب — این تست‌ها در کد LAB نوشته شده‌اند ولی فقط روی گوشی واقعی قابل اجرا هستند و هنوز اجرا نشده‌اند
 - **تست‌های جدید ۲.۹.۱ در LAB (نوشته‌شده، اجرا‌نشده):** ۵ تست Restore — settings رشته، فیلد settings با نوع اشتباه، last_check رشته، score_total خراب، gaming session با score خراب — هر کدام جداگانه بررسی می‌کنند که restore رد شود و داده + تنظیمات قبلی سالم بمانند؛ فقط روی گوشی واقعی قابل اجرا هستند و هنوز اجرا نشده‌اند
+- **تست‌های جدید ۲.۹.۲ در LAB (نوشته‌شده، اجرا‌نشده):** ۶ تست منفی Restore — عدد به‌شکل String در `samples.time`، Boolean به‌جای عدد در `samples.ok`، عدد به‌شکل String در فیلد اختیاری `samples.avg_ms`، عدد به‌شکل String در `ping_points.ms`، String به‌جای Boolean در `settings.live_ping`، Boolean به‌جای عدد در `settings.interval_sec` — هر کدام بررسی می‌کند که restore با خطای دقیقِ نام فیلد (یعنی اعتبارسنجی پیش از تراکنش) رد شود و داده + تنظیمات قبلی سالم بمانند؛ فقط روی گوشی واقعی قابل اجرا هستند و هنوز اجرا نشده‌اند
 - استرس ۱/۶/۲۴ ساعته؛ مصرف باتری و CPU درازمدت؛ نشت حافظه؛ رندر PDF فارسی روی گوشی
 - DoT ،IPv6 و Captive Portal روی شبکه واقعی ایران؛ رسم نمودار و چرخش صفحه روی گوشی واقعی
 - مهاجرت داده قدیمی ۳ فیلدی به SQLite بعد از به‌روزرسانی از نسخه ۲.۵
