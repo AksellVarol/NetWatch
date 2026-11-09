@@ -2,21 +2,21 @@
 
 اپلیکیشن اندروید (Kotlin) برای بررسی وضعیت اینترنت، تست پینگ و کیفیت اتصال، مانیتورینگ گیمینگ و تشخیص نوع اختلال — با چهار موتور داخلی مستقل: اندازه‌گیری، مانیتورینگ، تحلیل و تاریخچه.
 
-- **نسخه فعلی: v2.7** (versionCode 22) — پکیج `com.aksell.netwatch` — حداقل اندروید ۵.۰ (API 21)، هدف اندروید ۱۴
-- **دانلود مستقیم APK (نسخه ۲.۷):**
+- **نسخه فعلی: v2.8** (versionCode 23) — پکیج `com.aksell.netwatch` — حداقل اندروید ۵.۰ (API 21)، هدف اندروید ۱۴
+- **دانلود مستقیم APK (نسخه ۲.۸):**
 
   [`NetWatch.apk`](https://raw.githubusercontent.com/AksellVarol/NetWatch/main/NetWatch.apk)
 
-- حجم APK: **2,940,302 بایت**
+- حجم APK: **2,956,686 بایت**
 - SHA-256 کامل فایل:
 
   ```
-  a21d9804d3c89aef196b6da428634e2e374ec11c0eb47310da4f7fdc8b552e52
+  461f182429f64e209d80d98db862e7f94a91c9ea712a31175a60d38e56057a12
   ```
 
-- سورس کامل نسخه ۲.۷ (۶۶ فایل، با ساختار پوشه‌ها):
-  - [`NetWatch-source-v2.7.zip`](https://raw.githubusercontent.com/AksellVarol/NetWatch/main/NetWatch-source-v2.7.zip) — درخت کامل سورس (Kotlin + Manifest + layouts + values + drawable XML)
-  - [`NetWatch-source-v2.7.txt`](https://raw.githubusercontent.com/AksellVarol/NetWatch/main/NetWatch-source-v2.7.txt) — همه فایل‌ها در یک فایل متنی برای خواندن آنلاین
+- سورس کامل نسخه ۲.۸ (۶۶ فایل، با ساختار پوشه‌ها):
+  - [`NetWatch-source-v2.8.zip`](https://raw.githubusercontent.com/AksellVarol/NetWatch/main/NetWatch-source-v2.8.zip) — درخت کامل سورس (Kotlin + Manifest + layouts + values + drawable XML)
+  - [`NetWatch-source-v2.8.txt`](https://raw.githubusercontent.com/AksellVarol/NetWatch/main/NetWatch-source-v2.8.txt) — همه فایل‌ها در یک فایل متنی برای خواندن آنلاین
 
 ## قابلیت‌ها
 
@@ -43,6 +43,24 @@
 
 بدون وابستگی جدید: بدون Coroutines، بدون Room، بدون Chromium، بدون موتور بازی یا هوش مصنوعی. همه عملیات شبکه روی یک Executor مدیریت‌شده (۴ نخ) اجرا می‌شوند؛ هیچ عملیات شبکه‌ای روی Main Thread نیست.
 
+## تغییرات نسخه ۲.۷ به ۲.۸
+
+| فایل | تغییر |
+|---|---|
+| `History.kt` | enum جدید `HistoryRange` (مدت هر بازه فقط به میلی‌ثانیه، یک منبع حقیقت) + مستندسازی `samples()` به‌عنوان سازگاری قدیمی (فقط Triple، بدون Ping/Jitter/Loss) |
+| `MainActivity.kt` | `refreshHistory(HistoryRange)` — رفع باگ فیلتر: «۷ روز» قبلاً فقط ۷ ساعت و «۳۰ روز» فقط ۳۰ ساعت نشان می‌داد؛ حذف پرچم محلی `checking` و استفاده از گارد مشترک |
+| `Probes.kt` | `runAll`/`runLight` دیگر Pool تازه نمی‌سازند؛ همه پروب‌ها روی NetExecutor مشترک با مهلت مشترک و لغو واقعی اجرا می‌شوند |
+| `NetworkEngine.kt` | `submitSingle` بازنویسی شد (FutureTask + putIfAbsent): ثبت اتمی، حذف امن، برگرداندن `Future?` به‌جای Boolean؛ `cancelSingle` اول ورودی را حذف می‌کند |
+| `MonitoringEngine.kt` | گارد واحد برای همه مسیرها (دستی، خودکار، سرویس) از طریق `submitSingle`؛ حذف AtomicBooleanهای جدا |
+| `MonitorService.kt` | چرخه پس‌زمینه و Live Ping از همان گارد مشترک استفاده می‌کنند؛ حذف `finally` دستی |
+| `Lab.kt` | ۷ تست جدید (۵۶ تست) + بازنویسی تست‌های Single-flight برای API جدید |
+| `LabActivity.kt` | تست On-Device فیلتر بازه با Timestamp ثابت (۴ ردیف) |
+| `AndroidManifest.xml` | versionCode 23 / versionName 2.8 |
+
+حجم APK از ۲٬۹۴۰٬۳۰۲ بایت (۲.۷) به ۲٬۹۵۶٬۶۸۶ بایت (۲.۸) رسید: ‎+۱۶٬۳۸۴ بایت (‎+۰٫۵۵٪).
+
+**نکته صادقانه درباره راه‌اندازی مجدد با دکمه Check:** اگر در حین اجرای یک بررسی، دکمه Check دوباره زده شود، بررسی قبلی لغو و بررسی جدید شروع می‌شود (همان رفتار نسخه‌های قبل). گارد مشترک جلوی اجرای هم‌زمان دو بررسی مستقل را می‌گیرد، نه جایگزینی دستی یک بررسی با بررسی دیگر.
+
 ## تغییرات نسخه ۲.۶ به ۲.۷
 
 | فایل | تغییر |
@@ -61,7 +79,9 @@
 
 ## گزارش تست
 
-**تست‌های Unit روی JVM: ۴۹ از ۴۹ PASS (FAIL 0)** — شامل ۴۱ تست نسخه ۲.۶ و ۸ تست جدید موتورها (Single-flight، زمان‌بندی چرخه و Live Ping، برابری AnalyticsEngine با توابع مستقیم). تست Unit جایگزین تست واقعی شبکه نیست.
+**تست‌های Unit روی JVM: ۵۶ از ۵۶ PASS (FAIL 0)** — شامل ۴۹ تست نسخه ۲.۷ و ۷ تست جدید نسخه ۲.۸: مدت و cutoff هر سه بازه با زمان ثابت، انتخاب داده با Timestamp ثابت (۲۴h=۱، ۷d=۲، ۳۰d=۳)، Race Condition در `submitSingle` (۸ نخ هم‌زمان → دقیقاً ۱ برنده)، عدم هم‌زمانی Activity و Service روی گارد مشترک، ۵ چرخه متوالی بدون Pool اضافی (نخ‌های `netwatch-net` همان ۴ تا)، و Cancellation با آزادسازی گارد. تست Unit جایگزین تست واقعی شبکه نیست.
+
+نکته: تست چرخه‌ها در JVM پروب‌ها را با شبکه واقعی اجرا می‌کند، ولی در این محیط سندباکس پروب‌ها سریع ناموفق می‌شوند؛ آن‌چه تست می‌سنجد فقط تعداد نخ‌هاست، نه موفقیت پروب‌ها — و نتیجه آن PASS است.
 
 **تست‌های On-Device (روی گوشی واقعی): NOT TESTED — صادقانه اعلام می‌شود.** موارد زیر روی دستگاه واقعی اجرا نشده‌اند و نباید به‌عنوان تست‌شده تلقی شوند:
 
