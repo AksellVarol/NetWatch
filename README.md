@@ -2,21 +2,21 @@
 
 اپلیکیشن اندروید (Kotlin) برای بررسی وضعیت اینترنت، تست پینگ و کیفیت اتصال، مانیتورینگ گیمینگ و تشخیص نوع اختلال — با چهار موتور داخلی مستقل: اندازه‌گیری، مانیتورینگ، تحلیل و تاریخچه.
 
-- **نسخه فعلی: v2.9** (versionCode 24) — پکیج `com.aksell.netwatch` — حداقل اندروید ۵.۰ (API 21)، هدف اندروید ۱۴
-- **دانلود مستقیم APK (نسخه ۲.۹):**
+- **نسخه فعلی: v2.9.1** (versionCode 25) — پکیج `com.aksell.netwatch` — حداقل اندروید ۵.۰ (API 21)، هدف اندروید ۱۴
+- **دانلود مستقیم APK (نسخه ۲.۹.۱):**
 
   [`NetWatch.apk`](https://raw.githubusercontent.com/AksellVarol/NetWatch/main/NetWatch.apk)
 
-- حجم APK: **2,977,166 بایت**
+- حجم APK: **2,989,454 بایت**
 - SHA-256 کامل فایل:
 
   ```
-  f6a0b1c6e8d6e8cec9cf408b3587cde4b7526d3f4359e7da108e43ed77dedd53
+  83307be5453384aec14e58c43530d61a39f27f5a5028e7e953d89a9fcb2355f5
   ```
 
-- سورس کامل نسخه ۲.۹ (۶۶ فایل، با ساختار پوشه‌ها):
-  - [`NetWatch-source-v2.9.zip`](https://raw.githubusercontent.com/AksellVarol/NetWatch/main/NetWatch-source-v2.9.zip) — درخت کامل سورس (Kotlin + Manifest + layouts + values + drawable XML)
-  - [`NetWatch-source-v2.9.txt`](https://raw.githubusercontent.com/AksellVarol/NetWatch/main/NetWatch-source-v2.9.txt) — همه فایل‌ها در یک فایل متنی برای خواندن آنلاین
+- سورس کامل نسخه ۲.۹.۱ (۶۶ فایل، با ساختار پوشه‌ها):
+  - [`NetWatch-source-v2.9.1.zip`](https://raw.githubusercontent.com/AksellVarol/NetWatch/main/NetWatch-source-v2.9.1.zip) — درخت کامل سورس (Kotlin + Manifest + layouts + values + drawable XML)
+  - [`NetWatch-source-v2.9.1.txt`](https://raw.githubusercontent.com/AksellVarol/NetWatch/main/NetWatch-source-v2.9.1.txt) — همه فایل‌ها در یک فایل متنی برای خواندن آنلاین
 
 ## قابلیت‌ها
 
@@ -42,6 +42,18 @@
 | HistoryEngine | تنها API ذخیره و بازیابی تاریخچه (SQLite) |
 
 بدون وابستگی جدید: بدون Coroutines، بدون Room، بدون Chromium، بدون موتور بازی یا هوش مصنوعی. همه عملیات شبکه روی یک Executor مدیریت‌شده (۴ نخ) اجرا می‌شوند؛ هیچ عملیات شبکه‌ای روی Main Thread نیست.
+
+## تغییرات نسخه ۲.۹ به ۲.۹.۱
+
+| فایل | تغییر |
+|---|---|
+| `NetworkEngine.kt` | رفع Race لغو وظیفه QUEUED: در Callable، انتقال QUEUED به RUNNING فقط وقتی انجام می‌شود که Entry هنوز همان ورودی ثبت‌شده برای key باشد (`inFlight[key] === entry`) — بررسی مالکیت با همان قفل Entry که `cancelSingle` برای حذف استفاده می‌کند سریال می‌شود، پس دقیقاً یکی از آن دو برنده می‌شود؛ Callable لغوشده هرگز `task()` را اجرا نمی‌کند. دو Hook فقط-برای-تست (`testPreRunGate` ،`testCallableEntered`) اضافه شد تا تست Race بتواند دقیقاً همان درهم‌تنیدگی را وادار کند؛ در کد Production هرگز تنظیم نمی‌شوند و وقتی null هستند هیچ هزینه‌ای ندارند |
+| `History.kt` | اعتبارسنجی Restore کامل شد: حالا `settings` و `last_check` هم **پیش از شروع تراکنش** اعتبارسنجی می‌شوند (در ۲.۹ فقط ردیف‌های جدول بررسی می‌شدند و `settings` رشته یا `score_total` خراب بعد از پاک‌سازی داده‌ها خطا می‌داد). نوع واقعی هر فیلد بررسی می‌شود (عدد، Boolean، String — چون `optInt`/`optBoolean` نوع اشتباه را بی‌صدا به مقدار پیش‌فرض تبدیل می‌کنند): `settings` باید آبجکت باشد با فیلدهای عددی/بولین/رشته‌ای معتبر؛ `last_check` باید آبجکت باشد و `score_total` عدد یا null باشد؛ `score` هر جلسه Gaming عدد یا null باشد و بقیه فیلدهای جلسه هم نوع معتبر داشته باشند. فایل خراب در هر بخش با خطای دقیق رد می‌شود و دیتابیس و تنظیمات قبلی اصلاً لمس نمی‌شوند |
+| `Lab.kt` | تست قطعی Race لغو QUEUED با gate (۶۰ تست) + اصلاح تست Cancellation (قبل از لغو صبر می‌کند تا وظیفه واقعاً شروع شده باشد — لغو وظیفه‌ای که هنوز شروع نشده، interrupt ندارد و این درست است، نه Fail). تست Race با کد v2.9 (بدون بررسی مالکیت) اجرا و **Fail** شد — یعنی تست واقعاً باگ را می‌گیرد؛ با اصلاح ۶۰/۶۰ PASS است |
+| `LabActivity.kt` | ۵ تست جدید On-Device (نوشته‌شده، اجرا‌نشده): settings رشته، فیلد settings با نوع اشتباه، last_check رشته، score_total خراب، gaming session با score خراب — هر کدام جداگانه بررسی می‌کنند که restore رد شود و داده + تنظیمات قبلی سالم بمانند |
+| `AndroidManifest.xml` | versionCode 25 / versionName 2.9.1 |
+
+حجم APK از ۲٬۹۷۷٬۱۶۶ بایت (۲.۹) به ۲٬۹۸۹٬۴۵۴ بایت (۲.۹.۱) رسید: ‎+۱۲٬۲۸۸ بایت (‎+۰٫۴۱٪).
 
 ## تغییرات نسخه ۲.۸ به ۲.۹
 
@@ -94,7 +106,7 @@
 
 ## گزارش تست
 
-**تست‌های Unit روی JVM: ۵۹ از ۵۹ PASS (FAIL 0، NOT TESTED 0)** — شامل ۵۶ تست نسخه ۲.۸ و ۳ تست جدید نسخه ۲.۹: لغو وظیفه‌ای که Interrupt را نادیده می‌گیرد (submit دوم رد شد، isRunning در wind-down ‏true‏، هم‌زمانی هرگز ۲ نشد، بعد از پایان واقعی submit موفق)، لغو وظیفه صف‌شده QUEUED (Pool با ۴ وظیفه پر شد؛ وظیفه پنجم هرگز اجرا نشد، key بلافاصله آزاد شد، submit دوباره موفق)، و نگهبان FD سوکت (رشد FD پس از ۲۰۰ TCP ناموفق ≤ ۵). دو تست قبلی (MonitoringEngine Single-flight و Cancellation) برای معنای جدید لغو به‌روزرسانی شدند: بعد از لغو، تست صبر می‌کند تا وظیفه قبلی واقعاً تمام شود و بعد submit دوباره را می‌سنجد. تست Unit جایگزین تست واقعی شبکه نیست.
+**تست‌های Unit روی JVM: ۶۰ از ۶۰ PASS (FAIL 0، NOT TESTED 0)** — شامل ۵۹ تست نسخه ۲.۹ و ۱ تست جدید نسخه ۲.۹.۱: Race قطعی لغو QUEUED در شروع Callable (با gate — Callable در gate متوقف شد، cancel ورودی را حذف کرد، بعد از بازشدن gate، task اجرا نشد). این تست با کد v2.9 (بدون بررسی مالکیت) اجرا شد و **Fail** شد (۵۹/۶۰ — فقط همین تست)، پس واقعاً باگ را می‌گیرد؛ با اصلاح ۶۰/۶۰ PASS است. تست Cancellation هم اصلاح شد: قبل از لغو صبر می‌کند تا وظیفه واقعاً شروع شده باشد. تست Unit جایگزین تست واقعی شبکه نیست.
 
 نکته: تست چرخه‌ها در JVM پروب‌ها را با شبکه واقعی اجرا می‌کند، ولی در این محیط سندباکس پروب‌ها سریع ناموفق می‌شوند؛ آن‌چه تست می‌سنجد فقط تعداد نخ‌هاست، نه موفقیت پروب‌ها — و نتیجه آن PASS است.
 
@@ -103,6 +115,7 @@
 - نصب APK روی گوشی کاربر؛ Live Ping روی گوشی؛ به‌روزرسانی ویجت روی لانچر واقعی
 - همه تست‌های On-Device در LAB (History Round-trip، Backup Round-trip، Corrupt Restore، Widget Consistency، فیلتر بازه ۲.۸) و بخش‌های Integration / Cross / Stress روی دستگاه
 - **تست‌های جدید ۲.۹ در LAB (نوشته‌شده، اجرا‌نشده):** ۶۰۰۰ نمونه + ۶۰۰۰ نقطه پینگ با Timestamp ثابت، Backup/Restore با بیش از ۵۰۰۰ رکورد، Restore با یک ردیف خراب — این تست‌ها در کد LAB نوشته شده‌اند ولی فقط روی گوشی واقعی قابل اجرا هستند و هنوز اجرا نشده‌اند
+- **تست‌های جدید ۲.۹.۱ در LAB (نوشته‌شده، اجرا‌نشده):** ۵ تست Restore — settings رشته، فیلد settings با نوع اشتباه، last_check رشته، score_total خراب، gaming session با score خراب — هر کدام جداگانه بررسی می‌کنند که restore رد شود و داده + تنظیمات قبلی سالم بمانند؛ فقط روی گوشی واقعی قابل اجرا هستند و هنوز اجرا نشده‌اند
 - استرس ۱/۶/۲۴ ساعته؛ مصرف باتری و CPU درازمدت؛ نشت حافظه؛ رندر PDF فارسی روی گوشی
 - DoT ،IPv6 و Captive Portal روی شبکه واقعی ایران؛ رسم نمودار و چرخش صفحه روی گوشی واقعی
 - مهاجرت داده قدیمی ۳ فیلدی به SQLite بعد از به‌روزرسانی از نسخه ۲.۵
