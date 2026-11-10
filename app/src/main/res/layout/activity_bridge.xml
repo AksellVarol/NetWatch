@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:background="#0B1220">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+<ImageView android:layout_width="26dp" android:layout_height="26dp" android:src="@drawable/ic_w_shield"/>
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="MUSE BRIDGE" android:textColor="#F1F5F9" android:textSize="20sp" android:textStyle="bold" android:layout_marginStart="10dp"/>
+</LinearLayout>
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="خطاهای واقعی برنامه، عکس سلامت و گزارش تشخیصی برای Muse — بدون چت‌بات، بدون ارسال خودکار." android:textColor="#64748B" android:textSize="13sp" android:layout_marginTop="4dp"/>
+<!-- Status card -->
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/card_bg" android:padding="14dp" android:layout_marginTop="14dp">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="وضعیت Bridge" android:textColor="#F1F5F9" android:textSize="15sp" android:textStyle="bold"/>
+<TextView android:id="@+id/tvBridgeCounts" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="—" android:textColor="#CBD5E1" android:textSize="13sp" android:layout_marginTop="8dp"/>
+<TextView android:id="@+id/tvBridgeLastCrash" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="—" android:textColor="#CBD5E1" android:textSize="13sp" android:layout_marginTop="4dp"/>
+<TextView android:id="@+id/tvBridgeRecording" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="—" android:textColor="#CBD5E1" android:textSize="13sp" android:layout_marginTop="4dp"/>
+</LinearLayout>
+<!-- Health check -->
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/card_bg" android:padding="14dp" android:layout_marginTop="12dp">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="بررسی سلامت" android:textColor="#F1F5F9" android:textSize="15sp" android:textStyle="bold"/>
+<TextView android:id="@+id/tvBridgeHealthHint" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="هنوز بررسی سلامت انجام نشده است — دکمهٔ زیر را بزن." android:textColor="#94A3B8" android:textSize="12sp" android:layout_marginTop="6dp"/>
+<Button android:id="@+id/btnBridgeHealth" android:layout_width="match_parent" android:layout_height="52dp" android:text="↻ اجرای بررسی سلامت" android:background="@drawable/btn_cyan" android:textColor="#FFFFFF" android:textSize="14sp" android:textStyle="bold" android:layout_marginTop="10dp"/>
+<LinearLayout android:id="@+id/bridgeHealthContainer" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical"/>
+</LinearLayout>
+<!-- Crash reports -->
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/card_bg" android:padding="14dp" android:layout_marginTop="12dp">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Crash Reports" android:textColor="#F1F5F9" android:textSize="15sp" android:textStyle="bold"/>
+<TextView android:id="@+id/tvBridgeCrashEmpty" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="هنوز Crash ثبت نشده است." android:textColor="#94A3B8" android:textSize="13sp" android:layout_marginTop="8dp"/>
+<LinearLayout android:id="@+id/bridgeCrashContainer" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical"/>
+</LinearLayout>
+<!-- Diagnostic report -->
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/card_bg" android:padding="14dp" android:layout_marginTop="12dp">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="گزارش تشخیصی" android:textColor="#F1F5F9" android:textSize="15sp" android:textStyle="bold"/>
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="در گزارش چه چیزی هست: نسخهٔ اپ، مدل دستگاه، SDK اندروید، ماژول/فایل/خط/تابع، پیام‌های پاک‌سازی‌شده، تعدادها و زمان‌ها. چه چیزی نیست: IP، DNS، SSID، MAC، رمز، توکن، IMEI و محتوای پیام." android:textColor="#94A3B8" android:textSize="12sp" android:layout_marginTop="6dp"/>
+<CheckBox android:id="@+id/cbBridgeNetwork" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="شامل جزئیات شبکه باشد (فایل جدا — فقط برای این نوبت)" android:textColor="#F1F5F9" android:textSize="13sp" android:layout_marginTop="10dp"/>
+<TextView android:id="@+id/tvBridgeNetworkWarn" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="با تیک زدن، یک فایل جداگانهٔ مکمل شبکه ساخته می‌شود که IP عمومی، گیت‌وی، سرورهای DNS و SSID را دارد. این فایل هرگز با گزارش اصلی ادغام نمی‌شود و هرگز به Clipboard نمی‌رود. اطلاعات در دسترس‌نبودنی به‌صورت unavailable نوشته می‌شود." android:textColor="#F59E0B" android:textSize="12sp" android:layout_marginTop="6dp" android:visibility="gone"/>
+<Button android:id="@+id/btnBridgePreview" android:layout_width="match_parent" android:layout_height="52dp" android:text="پیش‌نمایش گزارش" android:background="#1E293B" android:textColor="#F1F5F9" android:textSize="14sp" android:layout_marginTop="10dp"/>
+<Button android:id="@+id/btnBridgePreviewToggle" android:layout_width="match_parent" android:layout_height="48dp" android:text="نمایش JSON" android:background="#1E293B" android:textColor="#F1F5F9" android:textSize="13sp" android:layout_marginTop="8dp"/>
+<TextView android:id="@+id/tvBridgePreview" android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/card_bg" android:textColor="#CBD5E1" android:textSize="12sp" android:padding="12dp" android:layout_marginTop="8dp" android:text="هنوز گزارشی ساخته نشده است — «پیش‌نمایش گزارش» را بزن."/>
+<Button android:id="@+id/btnBridgeShare" android:layout_width="match_parent" android:layout_height="56dp" android:text="اشتراک‌گذاری گزارش (JSON + متن خوانا)" android:background="@drawable/btn_cyan" android:textColor="#FFFFFF" android:textSize="14sp" android:textStyle="bold" android:layout_marginTop="10dp"/>
+<Button android:id="@+id/btnBridgeShareNetwork" android:layout_width="match_parent" android:layout_height="52dp" android:text="اشتراک‌گذاری مکمل شبکه (فایل جدا)" android:background="#1E293B" android:textColor="#F1F5F9" android:textSize="14sp" android:layout_marginTop="8dp" android:visibility="gone"/>
+</LinearLayout>
+</LinearLayout>
+</ScrollView>
