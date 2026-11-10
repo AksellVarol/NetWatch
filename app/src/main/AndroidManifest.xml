@@ -21,6 +21,8 @@
 </receiver>
 <activity android:name=".GamingActivity" android:exported="false"/>
 <activity android:name=".LabActivity" android:exported="false"/>
+<!-- Bridge Phase 2: the independent MUSE BRIDGE page (no new permission). -->
+<activity android:name=".BridgeActivity" android:exported="false"/>
 <!-- v2.9.6: minimal read-only provider for legacy (API 21-28) report
      exports in Downloads/NetWatch. No androidx FileProvider exists in
      this project (zero dependencies). API 29+ never uses it. -->
