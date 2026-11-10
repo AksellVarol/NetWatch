@@ -527,11 +527,14 @@ class MainActivity : Activity() {
             menu.menu.add("فرمول امتیاز")
             menu.menu.add("مانیتورینگ پس‌زمینه")
             menu.menu.add("تنظیمات")
+            menu.menu.add("پل Muse")
             menu.setOnMenuItemClickListener { item ->
                 when (item.title.toString()) {
                     "فرمول امتیاز" -> android.app.AlertDialog.Builder(this).setTitle("فرمول Network Quality Score").setMessage(Quality.formulaText()).setPositiveButton("فهمیدم", null).show()
                     "مانیتورینگ پس‌زمینه" -> btnBg.performClick()
                     "تنظیمات" -> show(sectionSettings)
+                    // Bridge Phase 2: the independent MUSE BRIDGE page.
+                    "پل Muse" -> startActivity(Intent(this, BridgeActivity::class.java))
                 }
                 true
             }

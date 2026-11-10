@@ -92,6 +92,13 @@ object Bridge {
         val lastRestoreDiag: String,
         val lastGamingSession: String,
         val lastLabRun: String,
+        // Phase 2: structured LAB counts (the formatted lastLabRun string
+        // cannot be parsed reliably). Nullable with defaults, so existing
+        // constructor calls keep compiling; filled in healthSnapshot.
+        val lastLabTotal: Int? = null,
+        val lastLabPassed: Int? = null,
+        val lastLabFailed: Int? = null,
+        val lastLabNotTested: Int? = null,
         val storageFreeMb: Long?
     )
 
@@ -291,6 +298,83 @@ object Bridge {
     fun events(): List<Event> = synchronized(lock) { ring.toList() }
     fun breadcrumbs(): List<Breadcrumb> = synchronized(lock) { crumbs.toList() }
 
+    // ---- Phase 2 read APIs (additive only) ----
+    // Nothing here writes, logs, or changes a cap or the handler; these
+    // only expose what Phase 1 already stores, for the Bridge page.
+
+    /** One recorded crash, parsed from its file (Phase 2 list). */
+    data class CrashSummary(
+        val fileName: String,
+        val ts: Long,
+        val module: Module,
+        val moduleSource: ModuleSource,
+        val exceptionClass: String,
+        val message: String,
+        val file: String?,
+        val line: Int?,
+        val function: String?,
+        val stackSignature: String
+    )
+
+    fun handlerInstalled(): Boolean = handlerInstalled.get()
+
+    /** Bytes used by the bridge dir (events + crashes), for the status card. */
+    fun storageUsageBytes(): Long {
+        val dir = bridgeDir(appCtx) ?: return 0L
+        return try { dir.walkTopDown().filter { it.isFile }.sumOf { it.length() } } catch (_: Exception) { 0L }
+    }
+
+    /** Counts per status over the given events (default: the ring). Pure. */
+    fun summaryCounts(evts: List<Event> = events()): Map<Status, Int> {
+        val m = mutableMapOf<Status, Int>()
+        for (s in Status.values()) m[s] = 0
+        for (e in evts) m[e.status] = (m[e.status] ?: 0) + 1
+        return m
+    }
+
+    /**
+     * All recorded crashes, newest first. One corrupt or truncated file
+     * never blocks the others: each file is parsed in its own try/catch
+     * and skipped on failure, so the page always shows what is readable.
+     */
+    fun listCrashes(): List<CrashSummary> {
+        val dir = bridgeDir(appCtx) ?: return emptyList()
+        val cd = File(dir, CRASHES_DIR)
+        val files = try { cd.listFiles()?.filter { it.name.endsWith(".json") } ?: emptyList() } catch (_: Exception) { return emptyList() }
+        val out = ArrayList<CrashSummary>()
+        for (f in files) {
+            try {
+                val jo = JSONObject(f.readText())
+                val mod = try { Module.valueOf(jo.optString("module", "SYSTEM")) } catch (_: Exception) { Module.SYSTEM }
+                val modSrc = try { ModuleSource.valueOf(jo.optString("module_source", "UNKNOWN")) } catch (_: Exception) { ModuleSource.UNKNOWN }
+                val exc = jo.optString("exception", "").takeIf { it.isNotBlank() } ?: "—"
+                out.add(CrashSummary(
+                    fileName = f.name,
+                    ts = jo.optLong("ts", 0L),
+                    module = mod,
+                    moduleSource = modSrc,
+                    exceptionClass = exc,
+                    message = jo.optString("message", ""),
+                    file = if (jo.isNull("file")) null else jo.optString("file"),
+                    line = if (jo.isNull("line")) null else jo.optInt("line"),
+                    function = if (jo.isNull("function")) null else jo.optString("function"),
+                    stackSignature = jo.optString("stack_signature", "")
+                ))
+            } catch (_: Exception) { /* skip this file; the others still show */ }
+        }
+        return out.sortedByDescending { it.ts }
+    }
+
+    /**
+     * Full text of one crash file, for the detail dialog. Null when the
+     * name is not a plain file name inside the crashes dir, or unreadable.
+     */
+    fun crashJsonText(fileName: String): String? {
+        if (fileName.contains("/") || fileName.contains("..")) return null
+        val dir = bridgeDir(appCtx) ?: return null
+        return try { File(File(dir, CRASHES_DIR), fileName).readText() } catch (_: Exception) { null }
+    }
+
     /** Test-only: clears the in-memory rings and the id counter. */
     fun resetForTests() {
         synchronized(lock) {
@@ -392,7 +476,10 @@ object Bridge {
         } catch (_: Exception) { null }
     }
 
-    private fun eventToJson(ev: Event): JSONObject {
+    // Phase 2: the report builder reuses the stored event JSON (one field
+    // list, no drift) and maps the two enum fields to the lowercase values
+    // the report Schema v1 requires. Was private; no logic changed.
+    fun eventToJson(ev: Event): JSONObject {
         val o = JSONObject()
         o.put("schema_version", 1)
         o.put("event_id", ev.eventId)
@@ -642,7 +729,10 @@ object Bridge {
         }
     }
 
-    private fun crashJson(now: Long, threadName: String, mod: Module, modSrc: ModuleSource, msg: String, file: String?, line: Int?, fn: String?, sig: String, frames: List<Frame>, causes: List<CauseInfo>, crumbs: List<String>): JSONObject {
+    // Phase 2: the exception class is stored explicitly so the crash list
+    // can show it (the message alone does not always carry the class name).
+    // Additive only: one new field, old crash files simply lack it.
+    private fun crashJson(now: Long, threadName: String, mod: Module, modSrc: ModuleSource, msg: String, exceptionClass: String, file: String?, line: Int?, fn: String?, sig: String, frames: List<Frame>, causes: List<CauseInfo>, crumbs: List<String>): JSONObject {
         val o = JSONObject()
         o.put("schema_version", 1)
         o.put("ts", now)
@@ -652,6 +742,7 @@ object Bridge {
         o.put("status", "ERROR")
         o.put("kind", "CRASH")
         o.put("message", msg)
+        o.put("exception", exceptionClass)
         if (file != null) o.put("file", file) else o.put("file", JSONObject.NULL)
         if (line != null) o.put("line", line) else o.put("line", JSONObject.NULL)
         if (fn != null) o.put("function", fn) else o.put("function", JSONObject.NULL)
@@ -710,12 +801,12 @@ object Bridge {
                         if (eo.optString("stack_signature") == sig && isDuplicateCrash(eo.optLong("ts", 0), now, true)) return
                     } catch (_: Exception) { }
                 }
-                var text = crashJson(now, thread.name, mod, modSrc, msg, file, line, fn, sig, frames, causes, crumbsCopy).toString()
+                var text = crashJson(now, thread.name, mod, modSrc, msg, t.javaClass.simpleName, file, line, fn, sig, frames, causes, crumbsCopy).toString()
                 if (text.toByteArray(Charsets.UTF_8).size > MAX_CRASH_BYTES) {
-                    text = crashJson(now, thread.name, mod, modSrc, msg, file, line, fn, sig, frames.take(10), causes.map { it.copy(frames = emptyList()) }, crumbsCopy).toString()
+                    text = crashJson(now, thread.name, mod, modSrc, msg, t.javaClass.simpleName, file, line, fn, sig, frames.take(10), causes.map { it.copy(frames = emptyList()) }, crumbsCopy).toString()
                 }
                 if (text.toByteArray(Charsets.UTF_8).size > MAX_CRASH_BYTES) {
-                    text = crashJson(now, thread.name, mod, modSrc, msg, file, line, fn, sig, emptyList(), emptyList(), emptyList()).toString()
+                    text = crashJson(now, thread.name, mod, modSrc, msg, t.javaClass.simpleName, file, line, fn, sig, emptyList(), emptyList(), emptyList()).toString()
                 }
                 val tmp = File(dir, "crash-$now.tmp")
                 val dst = File(dir, "crash-$now-${Integer.toHexString(sig.hashCode())}.json")
@@ -791,6 +882,12 @@ object Bridge {
         }
         val journal = try { History.restoreJournalState(ctx) } catch (_: Exception) { "UNKNOWN" }
         val diag = try { sanitize(History.lastRestoreDiag).take(200) } catch (_: Exception) { "" }
+        // Phase 2: the same counts, structured, for the health-row mapping
+        // and the report (the formatted string cannot be parsed reliably).
+        var labTotal: Int? = null
+        var labPassed: Int? = null
+        var labFailed: Int? = null
+        var labNotTested: Int? = null
         val lastLab = try {
             val run = Lab.loadRuns(ctx).maxByOrNull { it.timestamp }
             if (run == null) {
@@ -799,6 +896,10 @@ object Bridge {
                 val passed = run.results.count { it.pass == true }
                 val failed = run.results.count { it.pass == false }
                 val notTested = run.results.count { it.pass == null }
+                labTotal = run.results.size
+                labPassed = passed
+                labFailed = failed
+                labNotTested = notTested
                 val failing = run.results.filter { it.pass == false }.take(5).joinToString(", ") { it.name }
                 "v${run.version} • ${run.section} • ${run.results.size} tests • $passed pass • $failed fail • $notTested not tested" +
                     if (failing.isNotEmpty()) " • failing: $failing" else ""
@@ -826,6 +927,10 @@ object Bridge {
             lastRestoreDiag = diag,
             lastGamingSession = lastSessionText,
             lastLabRun = lastLab,
+            lastLabTotal = labTotal,
+            lastLabPassed = labPassed,
+            lastLabFailed = labFailed,
+            lastLabNotTested = labNotTested,
             storageFreeMb = freeMb
         )
     }
@@ -1043,6 +1148,70 @@ object Bridge {
         t("Bridge — نوشتن هم‌زمان فایل", "160 lines, 160 distinct ids, == memory", "lines=${lines.size} distinct=${lineIds.size} matchMem=${lineIds == memIds2}", fileOk)
         setTestDirForTests(null)
         fileDir.deleteRecursively()
+        resetForTests()
+
+        // ---- Phase 2 read APIs ----
+        val sumDir = File(System.getProperty("java.io.tmpdir"), "bridge-sum-test-${System.nanoTime()}")
+        sumDir.mkdirs()
+        setTestDirForTests(sumDir)
+        resetForTests()
+        log(Module.NETWORK, Status.ERROR, Kind.EXCEPTION, "sum err 1")
+        log(Module.RESTORE, Status.ERROR, Kind.RESTORE_ABORT, "sum err 2")
+        log(Module.WIDGET, Status.WARNING, Kind.WIDGET_STALE, "sum warn 1")
+        log(Module.LAB, Status.UNKNOWN, Kind.LAB_FAIL, "sum unk 1")
+        log(Module.GAMING, Status.NOT_RUN, Kind.EXCEPTION, "sum notrun 1")
+        val counts = summaryCounts()
+        val countsOk = counts[Status.ERROR] == 2 && counts[Status.WARNING] == 1 && counts[Status.UNKNOWN] == 1 && counts[Status.NOT_RUN] == 1
+        t("Bridge — شمارش وضعیت‌ها", "ERROR 2 / WARNING 1 / UNKNOWN 1 / NOT_RUN 1", "counts=$counts", countsOk)
+        val emptyCounts = summaryCounts(emptyList())
+        t("Bridge — شمارش لیست خالی", "all 0", "counts=$emptyCounts", emptyCounts.values.all { it == 0 })
+
+        // listCrashes: good (new format) + old (no exception field) +
+        // corrupt + truncated. Only the two readable files must show.
+        val crashListDir = File(System.getProperty("java.io.tmpdir"), "bridge-list-test-${System.nanoTime()}")
+        val crashListCrashes = File(crashListDir, CRASHES_DIR)
+        crashListCrashes.mkdirs()
+        setTestDirForTests(crashListDir)
+        val goodJson = JSONObject().apply {
+            put("schema_version", 1); put("ts", 2000L); put("module", "RESTORE")
+            put("module_source", "EXPLICIT"); put("status", "ERROR"); put("kind", "CRASH")
+            put("message", "boom"); put("exception", "IllegalStateException")
+            put("file", "History.kt"); put("line", 412); put("function", "phaseB")
+            put("stack_signature", "sig-1")
+        }.toString()
+        File(crashListCrashes, "crash-2000-aa.json").writeText(goodJson)
+        val oldJson = JSONObject().apply {
+            put("schema_version", 1); put("ts", 1000L); put("module", "NETWORK")
+            put("module_source", "STACK_TRACE_INFERRED"); put("status", "ERROR"); put("kind", "CRASH")
+            put("message", "old boom"); put("file", JSONObject.NULL); put("line", JSONObject.NULL)
+            put("function", JSONObject.NULL); put("stack_signature", "sig-0")
+        }.toString()
+        File(crashListCrashes, "crash-1000-bb.json").writeText(oldJson)
+        File(crashListCrashes, "crash-bad.json").writeText("{not json")
+        File(crashListCrashes, "crash-trunc.json").writeText("{\"ts\":123")
+        val listed = listCrashes()
+        val listOk = listed.size == 2 && listed[0].ts == 2000L && listed[0].exceptionClass == "IllegalStateException" &&
+            listed[0].module == Module.RESTORE && listed[0].file == "History.kt" && listed[0].line == 412 &&
+            listed[1].ts == 1000L && listed[1].exceptionClass == "—" && listed[1].file == null && listed[1].line == null
+        t("Bridge — فهرست Crash: خراب‌ها رد می‌شوند", "2 readable, newest first, old format fallback", "size=${listed.size} first=${listed.firstOrNull()?.exceptionClass}", listOk)
+        val detailText = crashJsonText("crash-2000-aa.json")
+        t("Bridge — خواندن فایل Crash", "contains message", "len=${detailText?.length}", detailText != null && detailText.contains("boom"))
+        t("Bridge — محافظت مسیر فایل Crash", "traversal/missing -> null", "trav=${crashJsonText("../evil.json")} miss=${crashJsonText("nope.json")}", crashJsonText("../evil.json") == null && crashJsonText("nope.json") == null)
+        setTestDirForTests(null)
+        crashListDir.deleteRecursively()
+
+        // storageUsageBytes: exactly two known files -> exact sum.
+        val usageDir = File(System.getProperty("java.io.tmpdir"), "bridge-usage-test-${System.nanoTime()}")
+        val usageCrashes = File(usageDir, CRASHES_DIR)
+        usageCrashes.mkdirs()
+        setTestDirForTests(usageDir)
+        File(usageDir, EVENTS_NAME).writeText("x".repeat(100))
+        File(usageCrashes, "crash-1.json").writeText("y".repeat(50))
+        val usage = storageUsageBytes()
+        t("Bridge — مصرف حافظهٔ Bridge", "150 bytes", "usage=$usage", usage == 150L)
+        setTestDirForTests(null)
+        usageDir.deleteRecursively()
+        sumDir.deleteRecursively()
         resetForTests()
 
         return out
