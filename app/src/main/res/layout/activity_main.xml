@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:background="@drawable/bg_gradient">
+<ScrollView android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+
+<!-- Home — mockup v2.3: gauge + 2 stat cards + info rows + Run Full Test -->
+<LinearLayout android:id="@+id/sectionHome" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:layoutDirection="rtl">
+<!-- Header — One UI (v2.11.0 Phase 1) -->
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+<ImageView android:id="@+id/btnMenu" android:layout_width="48dp" android:layout_height="48dp" android:src="@drawable/ic_menu" android:background="@drawable/btn_secondary" android:padding="12dp" android:clickable="true" android:focusable="true" android:contentDescription="منو"/>
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="12dp" android:gravity="center">
+<LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_gravity="center_horizontal" android:gravity="center_vertical">
+<ImageView android:layout_width="26dp" android:layout_height="26dp" android:src="@drawable/ic_logo_radar"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Net" android:textColor="@color/nw_text" android:textSize="22sp" android:textStyle="bold" android:layout_marginStart="6dp"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Watch" android:textColor="@color/nw_blue_light" android:textSize="22sp" android:textStyle="bold"/>
+</LinearLayout>
+</LinearLayout>
+<ImageView android:layout_width="28dp" android:layout_height="28dp" android:src="@drawable/ic_crown" android:contentDescription="NetWatch"/>
+</LinearLayout>
+<!-- Radar hero — v2.11.0 Phase 1 (replaces the GaugeView; GaugeView.kt stays in the tree, unused) -->
+<FrameLayout android:layout_width="280dp" android:layout_height="280dp" android:layout_gravity="center_horizontal" android:layout_marginTop="8dp" android:background="@drawable/bg_radar_glow">
+<com.aksell.netwatch.RadarView android:id="@+id/radar" android:layout_width="match_parent" android:layout_height="match_parent"/>
+<LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center" android:layout_marginTop="24dp">
+<ImageView android:id="@+id/ivStatusIcon" android:layout_width="40dp" android:layout_height="40dp" android:src="@drawable/ic_w_wifi" android:tint="#7C8AA0"/>
+<TextView android:id="@+id/tvStatus" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="در حال بررسی…" android:textColor="@color/nw_text" android:textSize="20sp" android:textStyle="bold" android:layout_marginTop="4dp"/>
+<TextView android:id="@+id/tvStatusSub" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textColor="@color/nw_text2" android:textSize="13sp" android:layout_marginTop="2dp"/>
+</LinearLayout>
+</FrameLayout>
+<TextView android:id="@+id/tvStatusNet" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="" android:textColor="@color/nw_muted" android:textSize="12sp" android:gravity="center" android:layout_marginTop="2dp"/>
+<!-- Stat cards: Ping + Packet Loss (v2.11.1 Phase 1b: sparklines removed) -->
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="14dp">
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:background="@drawable/home_card_bg" android:padding="14dp" android:elevation="2dp">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+<ImageView android:layout_width="16dp" android:layout_height="16dp" android:src="@drawable/ic_w_bolt" android:tint="#60A5FA"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Ping" android:textColor="@color/nw_text2" android:textSize="12sp" android:layout_marginStart="6dp"/>
+</LinearLayout>
+<TextView android:id="@+id/tvStatPing" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="—" android:textColor="@color/nw_text" android:textSize="24sp" android:textStyle="bold" android:layout_marginTop="4dp"/>
+<TextView android:id="@+id/tvStatPingSub" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="1.1.1.1" android:textColor="@color/nw_muted" android:textSize="11sp" android:layout_marginTop="2dp"/>
+</LinearLayout>
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:background="@drawable/home_card_bg" android:padding="14dp" android:layout_marginStart="12dp" android:elevation="2dp">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+<ImageView android:layout_width="16dp" android:layout_height="16dp" android:src="@drawable/ic_w_alert" android:tint="#22C55E"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Packet Loss" android:textColor="@color/nw_text2" android:textSize="12sp" android:layout_marginStart="6dp"/>
+</LinearLayout>
+<TextView android:id="@+id/tvStatLoss" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="—" android:textColor="@color/nw_text" android:textSize="24sp" android:textStyle="bold" android:layout_marginTop="4dp"/>
+<TextView android:id="@+id/tvStatLossSub" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="۴ بسته ICMP" android:textColor="@color/nw_muted" android:textSize="11sp" android:layout_marginTop="2dp"/>
+</LinearLayout>
+</LinearLayout>
+<!-- Speed tiles: Download + Upload — real last saved result or "—"; tap runs the existing speed test -->
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="12dp">
+<LinearLayout android:id="@+id/tileSpeedDown" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:background="@drawable/home_card_ripple" android:padding="14dp" android:elevation="2dp" android:clickable="true" android:focusable="true">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+<ImageView android:layout_width="16dp" android:layout_height="16dp" android:src="@drawable/ic_arrow_down" android:tint="#A855F7"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Download" android:textColor="@color/nw_text2" android:textSize="12sp" android:layout_marginStart="6dp"/>
+</LinearLayout>
+<TextView android:id="@+id/tvSpeedDown" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="—" android:textColor="@color/nw_text" android:textSize="24sp" android:textStyle="bold" android:layout_marginTop="4dp"/>
+<TextView android:id="@+id/tvSpeedDownSub" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="هنوز تستی انجام نشده" android:textColor="@color/nw_muted" android:textSize="11sp" android:layout_marginTop="2dp"/>
+</LinearLayout>
+<LinearLayout android:id="@+id/tileSpeedUp" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:background="@drawable/home_card_ripple" android:padding="14dp" android:layout_marginStart="12dp" android:elevation="2dp" android:clickable="true" android:focusable="true">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+<ImageView android:layout_width="16dp" android:layout_height="16dp" android:src="@drawable/ic_arrow_up" android:tint="#F59E0B"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Upload" android:textColor="@color/nw_text2" android:textSize="12sp" android:layout_marginStart="6dp"/>
+</LinearLayout>
+<TextView android:id="@+id/tvSpeedUp" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="—" android:textColor="@color/nw_text" android:textSize="24sp" android:textStyle="bold" android:layout_marginTop="4dp"/>
+<TextView android:id="@+id/tvSpeedUpSub" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="—" android:textColor="@color/nw_muted" android:textSize="11sp" android:layout_marginTop="2dp"/>
+</LinearLayout>
+</LinearLayout>
+<TextView android:id="@+id/tvSpeedStatus" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="" android:textColor="@color/nw_blue_light" android:textSize="12sp" android:gravity="center" android:layout_marginTop="6dp"/>
+<!-- Info rows (v2.11.1 Phase 1b: stacked label-above-value + chevron; whole card opens Network Details) -->
+<LinearLayout android:id="@+id/btnOpenNetwork" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/home_card_ripple" android:padding="16dp" android:layout_marginTop="12dp" android:elevation="2dp" android:clickable="true" android:focusable="true">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="IP Address" android:textColor="@color/nw_text2" android:textSize="12sp"/>
+<TextView android:id="@+id/tvIpLocal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="@color/nw_text" android:textSize="14sp" android:layout_marginTop="2dp"/>
+</LinearLayout>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="‹" android:textColor="@color/nw_muted" android:textSize="18sp"/>
+</LinearLayout>
+<View android:layout_width="match_parent" android:layout_height="1dp" android:background="#1E293B" android:layout_marginTop="10dp" android:layout_marginBottom="10dp"/>
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Public IP" android:textColor="@color/nw_text2" android:textSize="12sp"/>
+<TextView android:id="@+id/tvIpPublic" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="@color/nw_text" android:textSize="14sp" android:layout_marginTop="2dp"/>
+</LinearLayout>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="‹" android:textColor="@color/nw_muted" android:textSize="18sp"/>
+</LinearLayout>
+<View android:layout_width="match_parent" android:layout_height="1dp" android:background="#1E293B" android:layout_marginTop="10dp" android:layout_marginBottom="10dp"/>
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="DNS" android:textColor="@color/nw_text2" android:textSize="12sp"/>
+<TextView android:id="@+id/tvDns" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="@color/nw_text" android:textSize="14sp" android:layout_marginTop="2dp"/>
+</LinearLayout>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="‹" android:textColor="@color/nw_muted" android:textSize="18sp"/>
+</LinearLayout>
+<View android:layout_width="match_parent" android:layout_height="1dp" android:background="#1E293B" android:layout_marginTop="10dp" android:layout_marginBottom="10dp"/>
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Gateway" android:textColor="@color/nw_text2" android:textSize="12sp"/>
+<TextView android:id="@+id/tvGateway" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="@color/nw_text" android:textSize="14sp" android:layout_marginTop="2dp"/>
+</LinearLayout>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="‹" android:textColor="@color/nw_muted" android:textSize="18sp"/>
+</LinearLayout>
+</LinearLayout>
+<TextView android:id="@+id/tvCount" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="" android:textColor="@color/nw_muted" android:textSize="12sp" android:gravity="center" android:layout_marginTop="8dp"/>
+<!-- Run Full Test -->
+<Button android:id="@+id/btnCheck" android:layout_width="match_parent" android:layout_height="56dp" android:text="▶  اجرای تست کامل" android:background="@drawable/btn_primary" android:textColor="#FFFFFF" android:textSize="16sp" android:textStyle="bold" android:layout_marginTop="14dp"/>
+<!-- Quality Score card (kept below the fold — Coverage Gate requirement) -->
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/home_card_bg" android:padding="16dp" android:layout_marginTop="12dp" android:elevation="2dp">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+<TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Quality Score" android:textColor="@color/nw_text" android:textSize="15sp" android:textStyle="bold"/>
+<TextView android:id="@+id/tvScoreBadge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="@color/nw_text2" android:textSize="11sp" android:background="@drawable/badge_bg" android:paddingStart="10dp" android:paddingEnd="10dp" android:paddingTop="5dp" android:paddingBottom="5dp"/>
+</LinearLayout>
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginTop="10dp">
+<TextView android:id="@+id/tvScoreValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="@color/nw_text" android:textSize="32sp" android:textStyle="bold"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="/ 100" android:textColor="@color/nw_muted" android:textSize="14sp" android:layout_marginStart="4dp"/>
+</LinearLayout>
+<ProgressBar android:id="@+id/scoreBar" style="?android:attr/progressBarStyleHorizontal" android:layout_width="match_parent" android:layout_height="10dp" android:max="100" android:progress="0" android:progressDrawable="@drawable/score_bar" android:layout_marginTop="8dp"/>
+<TextView android:id="@+id/tvScoreCoverage" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="هنوز بررسی‌ای انجام نشده." android:textColor="@color/nw_text2" android:textSize="12sp" android:layout_marginTop="8dp"/>
+<TextView android:id="@+id/tvScoreParts" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="" android:textColor="@color/nw_muted" android:textSize="12sp" android:layout_marginTop="4dp"/>
+</LinearLayout>
+<!-- Graph card -->
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/home_card_bg" android:padding="16dp" android:layout_marginTop="12dp" android:elevation="2dp">
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Latency — ۶۰ ثانیه اخیر" android:textColor="@color/nw_text" android:textSize="15sp" android:textStyle="bold"/>
+<com.aksell.netwatch.GraphView android:id="@+id/graph" android:layout_width="match_parent" android:layout_height="170dp" android:layout_marginTop="10dp"/>
+<TextView android:id="@+id/tvChartStats" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Min — • Avg — • Max —" android:textColor="@color/nw_text2" android:textSize="12sp" android:layout_marginTop="8dp"/>
+</LinearLayout>
+<!-- Details (collapsed by default) -->
+<TextView android:id="@+id/tvDetailsSummary" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="" android:textColor="#F1F5F9" android:textSize="14sp" android:layout_marginTop="12dp"/>
+<Button android:id="@+id/btnDetailsToggle" android:layout_width="match_parent" android:layout_height="48dp" android:text="نمایش جزئیات بررسی" android:background="@drawable/btn_secondary" android:textColor="@color/nw_text" android:layout_marginTop="12dp"/>
+<LinearLayout android:id="@+id/detailsContainer" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:visibility="gone">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/home_card_bg" android:padding="16dp" android:layout_marginTop="12dp" android:elevation="2dp">
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="جزئیات بررسی" android:textColor="@color/nw_text" android:textSize="15sp" android:textStyle="bold"/>
+<TextView android:id="@+id/tvIntl" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="" android:textColor="#CBD5E1" android:textSize="13sp" android:layout_marginTop="8dp"/>
+</LinearLayout>
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/home_card_bg" android:padding="16dp" android:layout_marginTop="12dp" android:elevation="2dp">
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="اتصال و ISP" android:textColor="@color/nw_text" android:textSize="15sp" android:textStyle="bold"/>
+<TextView android:id="@+id/tvIsp" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="" android:textColor="#CBD5E1" android:textSize="13sp" android:layout_marginTop="8dp"/>
+</LinearLayout>
+</LinearLayout>
+<TextView android:id="@+id/tvGuidance" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="" android:textColor="@color/nw_text2" android:textSize="13sp" android:gravity="center" android:layout_marginTop="14dp" android:layout_marginBottom="8dp"/>
+</LinearLayout>
+
+<!-- Network (diagnostics — sub-screen of Home, no nav tab) -->
+<LinearLayout android:id="@+id/sectionNetwork" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:visibility="gone">
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Network" android:textColor="#F1F5F9" android:textSize="20sp" android:textStyle="bold"/>
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="DNS • IPv4/IPv6 • TCP/UDP/QUIC • TLS • Traceroute • Filtering" android:textColor="#64748B" android:textSize="13sp" android:layout_marginTop="4dp"/>
+<TextView android:id="@+id/tvNetSummary" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="" android:textColor="#F1F5F9" android:textSize="14sp" android:layout_marginTop="12dp"/>
+<Button android:id="@+id/btnNetTechToggle" android:layout_width="match_parent" android:layout_height="48dp" android:text="نمایش جزئیات فنی شبکه" android:background="@drawable/btn_secondary" android:textColor="@color/nw_text" android:layout_marginTop="12dp"/>
+<LinearLayout android:id="@+id/netTechContainer" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:visibility="gone">
+<TextView android:id="@+id/tvFilter" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="" android:textColor="#CBD5E1" android:textSize="14sp" android:layout_marginTop="12dp"/>
+<TextView android:id="@+id/tvLatency" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="" android:textColor="#CBD5E1" android:textSize="14sp" android:layout_marginTop="12dp"/>
+<TextView android:id="@+id/tvNet" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="" android:textColor="#CBD5E1" android:textSize="14sp" android:layout_marginTop="12dp"/>
+</LinearLayout>
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="8dp">
+<Button android:id="@+id/btnDns5" android:layout_width="0dp" android:layout_height="40dp" android:layout_weight="1" android:text="۵ دور" android:background="#1E293B" android:textColor="#F1F5F9"/>
+<Button android:id="@+id/btnDns20" android:layout_width="0dp" android:layout_height="40dp" android:layout_weight="1" android:text="۲۰ دور ✓" android:background="#0D9488" android:textColor="#FFFFFF" android:layout_marginStart="6dp"/>
+<Button android:id="@+id/btnDns50" android:layout_width="0dp" android:layout_height="40dp" android:layout_weight="1" android:text="۵۰ دور" android:background="#1E293B" android:textColor="#F1F5F9" android:layout_marginStart="6dp"/>
+</LinearLayout>
+<Button android:id="@+id/btnDnsBench" android:layout_width="match_parent" android:layout_height="48dp" android:text="DNS Benchmark — مقایسه DNSها" android:background="#0D9488" android:textColor="#FFFFFF" android:layout_marginTop="8dp"/>
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="همه‌ی مقصدها" android:textColor="#F1F5F9" android:textSize="16sp" android:textStyle="bold" android:layout_marginTop="14dp"/>
+<TextView android:id="@+id/tvProbes" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="" android:textColor="#CBD5E1" android:textSize="13sp" android:layout_marginTop="6dp"/>
+</LinearLayout>
+
+<!-- Gaming (summary, details in GamingActivity) -->
+<LinearLayout android:id="@+id/sectionGaming" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:visibility="gone">
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Gaming" android:textColor="#F1F5F9" android:textSize="20sp" android:textStyle="bold"/>
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="پروفایل COD Mobile • منطقه • پینگ • Bufferbloat • امتیاز" android:textColor="#64748B" android:textSize="13sp" android:layout_marginTop="4dp"/>
+<TextView android:id="@+id/tvGamingSum" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="هنوز تست گیمینگ انجام نشده." android:textColor="#CBD5E1" android:textSize="14sp" android:layout_marginTop="12dp"/>
+<Button android:id="@+id/btnOpenGaming" android:layout_width="match_parent" android:layout_height="52dp" android:text="باز کردن Gaming Monitor →" android:background="#0D9488" android:textColor="#FFFFFF" android:layout_marginTop="12dp"/>
+</LinearLayout>
+
+<!-- History — mockup v2.3 -->
+<LinearLayout android:id="@+id/sectionHistory" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:visibility="gone">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+<ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_w_clock"/>
+<TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="History" android:textColor="#F1F5F9" android:textSize="20sp" android:textStyle="bold" android:layout_marginStart="8dp"/>
+<Button android:id="@+id/btnHistClear" android:layout_width="48dp" android:layout_height="48dp" android:text="🗑" android:background="@android:color/transparent" android:textColor="#F1F5F9" android:textSize="18sp"/>
+</LinearLayout>
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="10dp">
+<Button android:id="@+id/btnH24" android:layout_width="0dp" android:layout_height="40dp" android:layout_weight="1" android:text="24 Hours" android:background="@drawable/chip_sel" android:textColor="#FFFFFF"/>
+<Button android:id="@+id/btnH7" android:layout_width="0dp" android:layout_height="40dp" android:layout_weight="1" android:text="7 Days" android:background="@drawable/chip_unsel" android:textColor="#F1F5F9" android:layout_marginStart="6dp"/>
+<Button android:id="@+id/btnH30" android:layout_width="0dp" android:layout_height="40dp" android:layout_weight="1" android:text="30 Days" android:background="@drawable/chip_unsel" android:textColor="#F1F5F9" android:layout_marginStart="6dp"/>
+</LinearLayout>
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="12dp" android:gravity="center_vertical">
+<View android:layout_width="10dp" android:layout_height="10dp" android:background="@drawable/dot"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Ping (ms)" android:textColor="@color/nw_text2" android:textSize="12sp" android:layout_marginStart="6dp"/>
+<View android:layout_width="10dp" android:layout_height="10dp" android:background="#A855F7" android:layout_marginStart="16dp"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Sources OK (%)" android:textColor="@color/nw_text2" android:textSize="12sp" android:layout_marginStart="6dp"/>
+</LinearLayout>
+<com.aksell.netwatch.GraphView android:id="@+id/graphHistory" android:layout_width="match_parent" android:layout_height="170dp" android:background="@drawable/card_bg" android:layout_marginTop="8dp"/>
+<TextView android:id="@+id/tvChartRange" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="" android:textColor="@color/nw_text2" android:textSize="12sp" android:layout_marginTop="6dp"/>
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Recent Tests" android:textColor="#F1F5F9" android:textSize="15sp" android:textStyle="bold" android:layout_marginTop="14dp"/>
+<LinearLayout android:id="@+id/recentContainer" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginTop="6dp"/>
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="داده فقط از همین گوشی و همین نصب است؛ بازه‌های ۷ و ۳۰ روزه تا وقتی داده کافی جمع نشده، خالی نشان داده می‌شوند." android:textColor="#64748B" android:textSize="11sp" android:layout_marginTop="10dp"/>
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Stability Timeline" android:textColor="#F1F5F9" android:textSize="15sp" android:textStyle="bold" android:layout_marginTop="14dp"/>
+<LinearLayout android:id="@+id/timelineContainer" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical"/>
+<TextView android:id="@+id/tvHistory" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="" android:textColor="#CBD5E1" android:textSize="13sp" android:layout_marginTop="10dp"/>
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="10dp">
+<Button android:id="@+id/btnCsv" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="خروجی CSV" android:background="#1E293B" android:textColor="#F1F5F9"/>
+<Button android:id="@+id/btnJson" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="خروجی JSON" android:background="#1E293B" android:textColor="#F1F5F9" android:layout_marginStart="8dp"/>
+</LinearLayout>
+</LinearLayout>
+
+<!-- Settings — mockup v2.3 -->
+<LinearLayout android:id="@+id/sectionSettings" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:visibility="gone">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+<ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_nav_gear"/>
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Settings" android:textColor="#F1F5F9" android:textSize="20sp" android:textStyle="bold" android:layout_marginStart="8dp"/>
+</LinearLayout>
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="General Settings" android:textColor="@color/nw_teal" android:textSize="13sp" android:textStyle="bold" android:layout_marginTop="16dp"/>
+<LinearLayout android:layout_width="match_parent" android:layout_height="56dp" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginTop="4dp">
+<ImageView android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_bell"/>
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="10dp">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Notifications" android:textColor="@color/nw_text" android:textSize="14sp"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Get alerts for network issues" android:textColor="@color/nw_muted" android:textSize="11sp"/>
+</LinearLayout>
+<Switch android:id="@+id/swAlerts" android:layout_width="wrap_content" android:layout_height="wrap_content" android:checked="true"/>
+</LinearLayout>
+<LinearLayout android:id="@+id/btnAutoTestRow" android:layout_width="match_parent" android:layout_height="56dp" android:orientation="horizontal" android:gravity="center_vertical" android:clickable="true" android:focusable="true">
+<ImageView android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_sliders"/>
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="10dp">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Auto Test" android:textColor="@color/nw_text" android:textSize="14sp"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Run tests automatically" android:textColor="@color/nw_muted" android:textSize="11sp"/>
+</LinearLayout>
+<TextView android:id="@+id/tvAutoTestVal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="5 min" android:textColor="@color/nw_text" android:textSize="13sp"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="›" android:textColor="@color/nw_muted" android:textSize="18sp" android:layout_marginStart="6dp"/>
+</LinearLayout>
+<LinearLayout android:layout_width="match_parent" android:layout_height="56dp" android:orientation="horizontal" android:gravity="center_vertical">
+<ImageView android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_w_clock"/>
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="10dp">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="بررسی خودکار" android:textColor="@color/nw_text" android:textSize="14sp"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="بررسی دوره‌ای در پس‌زمینه صفحه اصلی" android:textColor="@color/nw_muted" android:textSize="11sp"/>
+</LinearLayout>
+<Switch android:id="@+id/swAuto" android:layout_width="wrap_content" android:layout_height="wrap_content" android:checked="true"/>
+</LinearLayout>
+<LinearLayout android:id="@+id/btnAlertRow" android:layout_width="match_parent" android:layout_height="56dp" android:orientation="horizontal" android:gravity="center_vertical" android:clickable="true" android:focusable="true">
+<ImageView android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_bell"/>
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="10dp">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="آستانه هشدار قطعی" android:textColor="@color/nw_text" android:textSize="14sp"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="هشدار وقتی دسترسی کمتر از این حد شد" android:textColor="@color/nw_muted" android:textSize="11sp"/>
+</LinearLayout>
+<TextView android:id="@+id/tvAlertVal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="40٪" android:textColor="@color/nw_text" android:textSize="13sp"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="›" android:textColor="@color/nw_muted" android:textSize="18sp" android:layout_marginStart="6dp"/>
+</LinearLayout>
+<LinearLayout android:id="@+id/btnLiveRow" android:layout_width="match_parent" android:layout_height="56dp" android:orientation="horizontal" android:gravity="center_vertical">
+<ImageView android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_w_clock"/>
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="10dp">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="پینگ زنده (ویجت)" android:textColor="@color/nw_text" android:textSize="14sp"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="پینگ هر ۵ ثانیه در ویجت — فقط وقتی مانیتورینگ روشن است" android:textColor="@color/nw_muted" android:textSize="11sp"/>
+</LinearLayout>
+<Switch android:id="@+id/swLive" android:layout_width="wrap_content" android:layout_height="wrap_content" android:checked="false"/>
+</LinearLayout>
+<LinearLayout android:layout_width="match_parent" android:layout_height="56dp" android:orientation="horizontal" android:gravity="center_vertical">
+<ImageView android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_moon"/>
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="10dp">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Dark Theme" android:textColor="@color/nw_text" android:textSize="14sp"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Use dark mode" android:textColor="@color/nw_muted" android:textSize="11sp"/>
+</LinearLayout>
+<Switch android:id="@+id/swDark" android:layout_width="wrap_content" android:layout_height="wrap_content" android:checked="true"/>
+</LinearLayout>
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Advanced Settings" android:textColor="@color/nw_teal" android:textSize="13sp" android:textStyle="bold" android:layout_marginTop="16dp"/>
+<LinearLayout android:id="@+id/btnTestOptions" android:layout_width="match_parent" android:layout_height="56dp" android:orientation="horizontal" android:gravity="center_vertical" android:clickable="true" android:focusable="true">
+<ImageView android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_sliders"/>
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="10dp">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Test Options" android:textColor="@color/nw_text" android:textSize="14sp"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Customize test parameters" android:textColor="@color/nw_muted" android:textSize="11sp"/>
+</LinearLayout>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="›" android:textColor="@color/nw_muted" android:textSize="18sp"/>
+</LinearLayout>
+<LinearLayout android:id="@+id/btnSecurity" android:layout_width="match_parent" android:layout_height="56dp" android:orientation="horizontal" android:gravity="center_vertical" android:clickable="true" android:focusable="true">
+<ImageView android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_w_shield"/>
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="10dp">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Security &amp; Privacy" android:textColor="@color/nw_text" android:textSize="14sp"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Data usage and permissions" android:textColor="@color/nw_muted" android:textSize="11sp"/>
+</LinearLayout>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="›" android:textColor="@color/nw_muted" android:textSize="18sp"/>
+</LinearLayout>
+<LinearLayout android:id="@+id/btnAboutRow" android:layout_width="match_parent" android:layout_height="56dp" android:orientation="horizontal" android:gravity="center_vertical" android:clickable="true" android:focusable="true">
+<ImageView android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_info"/>
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="10dp">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="About NetWatch" android:textColor="@color/nw_text" android:textSize="14sp"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="نسخه و محدودیت‌های صادقانه" android:textColor="@color/nw_muted" android:textSize="11sp"/>
+</LinearLayout>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Version 2.11.0" android:textColor="@color/nw_text" android:textSize="13sp"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="›" android:textColor="@color/nw_muted" android:textSize="18sp" android:layout_marginStart="6dp"/>
+</LinearLayout>
+<Button android:id="@+id/btnCheckUpdates" android:layout_width="match_parent" android:layout_height="52dp" android:text="↻ Check for Updates" android:background="@drawable/btn_secondary" android:textColor="@color/nw_teal" android:textSize="14sp" android:textStyle="bold" android:layout_marginTop="10dp"/>
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="ابزارها و داده" android:textColor="@color/nw_teal" android:textSize="13sp" android:textStyle="bold" android:layout_marginTop="16dp"/>
+<Button android:id="@+id/btnBg" android:layout_width="match_parent" android:layout_height="48dp" android:text="▶ مانیتورینگ پس‌زمینه" android:background="#1E293B" android:textColor="#F1F5F9" android:layout_marginTop="8dp"/>
+<TextView android:id="@+id/tvAbout" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="" android:textColor="#CBD5E1" android:textSize="13sp" android:layout_marginTop="12dp"/>
+<Button android:id="@+id/btnCustomTg" android:layout_width="match_parent" android:layout_height="48dp" android:text="مقصد اختصاصی: telegram.org" android:background="#1E293B" android:textColor="#F1F5F9" android:layout_marginTop="8dp"/>
+<Button android:id="@+id/btnCustomIg" android:layout_width="match_parent" android:layout_height="48dp" android:text="مقصد اختصاصی: instagram.com" android:background="#1E293B" android:textColor="#F1F5F9" android:layout_marginTop="8dp"/>
+<Button android:id="@+id/btnLab" android:layout_width="match_parent" android:layout_height="48dp" android:text="NETWATCH LAB — تست و اعتبارسنجی" android:background="#0D9488" android:textColor="#FFFFFF" android:layout_marginTop="8dp"/>
+<Button android:id="@+id/btnSelfTest" android:layout_width="match_parent" android:layout_height="48dp" android:text="تست خودکار همه پروتکل‌ها" android:background="#1E293B" android:textColor="#F1F5F9" android:layout_marginTop="8dp"/>
+<Button android:id="@+id/btnPdf" android:layout_width="match_parent" android:layout_height="48dp" android:text="گزارش PDF" android:background="#1E293B" android:textColor="#F1F5F9" android:layout_marginTop="8dp"/>
+<Button android:id="@+id/btnBackupSaf" android:layout_width="match_parent" android:layout_height="48dp" android:text="پشتیبان‌گیری — انتخاب محل ذخیره" android:background="#0D9488" android:textColor="#FFFFFF" android:layout_marginTop="8dp"/>
+<Button android:id="@+id/btnRestoreSaf" android:layout_width="match_parent" android:layout_height="48dp" android:text="بازیابی — انتخاب فایل پشتیبان" android:background="#1E293B" android:textColor="#F1F5F9" android:layout_marginTop="8dp"/>
+<Button android:id="@+id/btnBackup" android:layout_width="match_parent" android:layout_height="48dp" android:text="پشتیبان‌گیری" android:background="#1E293B" android:textColor="#F1F5F9" android:layout_marginTop="8dp"/>
+<Button android:id="@+id/btnRestore" android:layout_width="match_parent" android:layout_height="48dp" android:text="بازیابی پشتیبان" android:background="#1E293B" android:textColor="#F1F5F9" android:layout_marginTop="8dp"/>
+<Button android:id="@+id/btnClear" android:layout_width="match_parent" android:layout_height="48dp" android:text="حذف همه تاریخچه (حریم خصوصی)" android:background="#7F1D1D" android:textColor="#F1F5F9" android:layout_marginTop="8dp"/>
+<Button android:id="@+id/btnNetblocks" android:layout_width="match_parent" android:layout_height="48dp" android:text="نت‌بلاکس" android:background="#1E293B" android:textColor="#F1F5F9" android:layout_marginTop="8dp"/>
+<Button android:id="@+id/btnRadar" android:layout_width="match_parent" android:layout_height="48dp" android:text="کلادفلر رادار ایران" android:background="#1E293B" android:textColor="#F1F5F9" android:layout_marginTop="8dp"/>
+<Button android:id="@+id/btnIoda" android:layout_width="match_parent" android:layout_height="48dp" android:text="IODA" android:background="#1E293B" android:textColor="#F1F5F9" android:layout_marginTop="8dp"/>
+</LinearLayout>
+
+</LinearLayout>
+</ScrollView>
+<View android:layout_width="match_parent" android:layout_height="1dp" android:background="#1E293B"/>
+<LinearLayout android:layout_width="match_parent" android:layout_height="64dp" android:orientation="horizontal" android:background="@color/nw_nav_bg">
+<Button android:id="@+id/navHome" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_margin="4dp" android:text="Home" android:drawableTop="@drawable/ic_nav_home" android:background="@color/nw_nav_bg" android:textColor="@color/nw_blue_light" android:textSize="11sp" android:textStyle="bold" android:gravity="center" android:drawablePadding="2dp"/>
+<Button android:id="@+id/navGaming" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_margin="4dp" android:text="Gaming" android:drawableTop="@drawable/ic_w_gamepad" android:background="@color/nw_nav_bg" android:textColor="@color/nw_text2" android:textSize="11sp" android:gravity="center" android:drawablePadding="2dp"/>
+<Button android:id="@+id/navHistory" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_margin="4dp" android:text="History" android:drawableTop="@drawable/ic_w_clock" android:background="@color/nw_nav_bg" android:textColor="@color/nw_text2" android:textSize="11sp" android:gravity="center" android:drawablePadding="2dp"/>
+<Button android:id="@+id/navLab" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_margin="4dp" android:text="Lab" android:drawableTop="@drawable/ic_nav_flask" android:background="@color/nw_nav_bg" android:textColor="@color/nw_text2" android:textSize="11sp" android:gravity="center" android:drawablePadding="2dp"/>
+<Button android:id="@+id/navSettings" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_margin="4dp" android:text="Settings" android:drawableTop="@drawable/ic_nav_gear" android:background="@color/nw_nav_bg" android:textColor="@color/nw_text2" android:textSize="11sp" android:gravity="center" android:drawablePadding="2dp"/>
+</LinearLayout>
+</LinearLayout>

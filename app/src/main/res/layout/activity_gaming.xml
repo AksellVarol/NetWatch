@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:background="#0B1220">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+<!-- Header -->
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+<Button android:id="@+id/btnGBack" android:layout_width="48dp" android:layout_height="48dp" android:text="‹" android:background="@drawable/btn_secondary" android:textColor="#F1F5F9" android:textSize="24sp"/>
+<TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Gaming Monitor" android:textColor="#F1F5F9" android:textSize="20sp" android:textStyle="bold" android:layout_marginStart="10dp"/>
+<ImageView android:layout_width="28dp" android:layout_height="28dp" android:src="@drawable/ic_w_gamepad"/>
+</LinearLayout>
+<LinearLayout android:id="@+id/sectionGMain" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+<!-- Game card -->
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:background="@drawable/card_bg" android:padding="14dp" android:layout_marginTop="12dp" android:gravity="center_vertical">
+<ImageView android:layout_width="52dp" android:layout_height="52dp" android:src="@drawable/ic_w_gamepad"/>
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="12dp">
+<TextView android:id="@+id/tvGameTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Call of Duty Mobile" android:textColor="#F1F5F9" android:textSize="16sp" android:textStyle="bold"/>
+<TextView android:id="@+id/tvGameSub" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Benchmark route — not the game server" android:textColor="#94A3B8" android:textSize="12sp" android:layout_marginTop="2dp"/>
+</LinearLayout>
+<Button android:id="@+id/btnGMenu" android:layout_width="48dp" android:layout_height="48dp" android:text="⌄" android:background="@android:color/transparent" android:textColor="#F1F5F9" android:textSize="22sp"/>
+</LinearLayout>
+<!-- Big stats -->
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="12dp">
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:background="@drawable/card_bg" android:padding="14dp">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+<ImageView android:layout_width="18dp" android:layout_height="18dp" android:src="@drawable/ic_bars"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Ping (Avg)" android:textColor="#94A3B8" android:textSize="12sp" android:layout_marginStart="6dp"/>
+</LinearLayout>
+<TextView android:id="@+id/tvBigPing" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="#F1F5F9" android:textSize="28sp" android:textStyle="bold" android:layout_marginTop="4dp"/>
+</LinearLayout>
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:background="@drawable/card_bg" android:padding="14dp" android:layout_marginStart="12dp">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+<ImageView android:layout_width="18dp" android:layout_height="18dp" android:src="@drawable/ic_bars"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Packet Loss" android:textColor="#94A3B8" android:textSize="12sp" android:layout_marginStart="6dp"/>
+</LinearLayout>
+<TextView android:id="@+id/tvBigLoss" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="#F1F5F9" android:textSize="28sp" android:textStyle="bold" android:layout_marginTop="4dp"/>
+</LinearLayout>
+</LinearLayout>
+<!-- Chart -->
+<com.aksell.netwatch.GraphView android:id="@+id/graphGaming" android:layout_width="match_parent" android:layout_height="180dp" android:background="@drawable/card_bg" android:layout_marginTop="12dp"/>
+<TextView android:id="@+id/tvGChartStats" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Min — • Avg — • Max —" android:textColor="#94A3B8" android:textSize="12sp" android:layout_marginTop="6dp"/>
+<!-- Range chips -->
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="10dp">
+<Button android:id="@+id/btnRange1" android:layout_width="0dp" android:layout_height="40dp" android:layout_weight="1" android:text="1 min" android:background="@drawable/chip_sel" android:textColor="#FFFFFF"/>
+<Button android:id="@+id/btnRange5" android:layout_width="0dp" android:layout_height="40dp" android:layout_weight="1" android:text="5 min" android:background="@drawable/chip_unsel" android:textColor="#F1F5F9" android:layout_marginStart="6dp"/>
+<Button android:id="@+id/btnRange15" android:layout_width="0dp" android:layout_height="40dp" android:layout_weight="1" android:text="15 min" android:background="@drawable/chip_unsel" android:textColor="#F1F5F9" android:layout_marginStart="6dp"/>
+<Button android:id="@+id/btnRange30" android:layout_width="0dp" android:layout_height="40dp" android:layout_weight="1" android:text="30 min" android:background="@drawable/chip_unsel" android:textColor="#F1F5F9" android:layout_marginStart="6dp"/>
+</LinearLayout>
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="بازه‌ها مدت واقعی مانیتورینگ‌اند: ۱ / ۵ / ۱۵ / ۳۰ دقیقه، هر ۵ ثانیه یک پینگ. مانیتورینگ با ورود به این صفحه به‌صورت خودکار شروع می‌شود و در پس‌زمینه ادامه پیدا می‌کند؛ می‌توانی از صفحه خارج شوی و با دکمه «توقف مانیتورینگ» یا از نوتیفیکیشن متوقفش کنی." android:textColor="#64748B" android:textSize="11sp" android:layout_marginTop="4dp"/>
+<!-- Jitter / Min-Max / Bufferbloat -->
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:background="@drawable/card_bg" android:padding="14dp" android:layout_marginTop="12dp">
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center_horizontal">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Jitter (میانگین تفاوت)" android:textColor="#94A3B8" android:textSize="12sp"/>
+<TextView android:id="@+id/tvGJitter" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="#F1F5F9" android:textSize="16sp" android:textStyle="bold" android:layout_marginTop="2dp"/>
+</LinearLayout>
+<View android:layout_width="1dp" android:layout_height="36dp" android:background="#1E293B"/>
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center_horizontal">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Min / Max" android:textColor="#94A3B8" android:textSize="12sp"/>
+<TextView android:id="@+id/tvGMinMax" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="#F1F5F9" android:textSize="16sp" android:textStyle="bold" android:layout_marginTop="2dp"/>
+</LinearLayout>
+<View android:layout_width="1dp" android:layout_height="36dp" android:background="#1E293B"/>
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center_horizontal">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Bufferbloat" android:textColor="#94A3B8" android:textSize="12sp"/>
+<TextView android:id="@+id/tvGBb" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="#F1F5F9" android:textSize="16sp" android:textStyle="bold" android:layout_marginTop="2dp"/>
+</LinearLayout>
+</LinearLayout>
+<!-- Gaming Ready banner -->
+<LinearLayout android:id="@+id/bannerReady" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:background="@drawable/widget_live" android:padding="14dp" android:layout_marginTop="12dp" android:gravity="center_vertical" android:visibility="gone">
+<ImageView android:layout_width="26dp" android:layout_height="26dp" android:src="@drawable/ic_w_check"/>
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginStart="10dp">
+<TextView android:id="@+id/tvReadyTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Gaming Ready" android:textColor="#22C55E" android:textSize="15sp" android:textStyle="bold"/>
+<TextView android:id="@+id/tvReadySub" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Connection is stable for gaming" android:textColor="#CBD5E1" android:textSize="12sp"/>
+</LinearLayout>
+</LinearLayout>
+<!-- Rows -->
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/card_bg" android:paddingStart="14dp" android:paddingEnd="14dp" android:paddingTop="4dp" android:paddingBottom="4dp" android:layout_marginTop="12dp">
+<LinearLayout android:id="@+id/btnGRowWifi" android:layout_width="match_parent" android:layout_height="52dp" android:orientation="horizontal" android:gravity="center_vertical" android:clickable="true" android:focusable="true">
+<ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_w_wifi"/>
+<TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Wi-Fi vs Mobile Data" android:textColor="#CBD5E1" android:textSize="14sp" android:layout_marginStart="10dp"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="›" android:textColor="#7C8AA0" android:textSize="18sp"/>
+</LinearLayout>
+<View android:layout_width="match_parent" android:layout_height="1dp" android:background="#1E293B"/>
+<LinearLayout android:id="@+id/btnGRowVpn" android:layout_width="match_parent" android:layout_height="52dp" android:orientation="horizontal" android:gravity="center_vertical" android:clickable="true" android:focusable="true">
+<ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_w_shield"/>
+<TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="VPN Test" android:textColor="#CBD5E1" android:textSize="14sp" android:layout_marginStart="10dp"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="›" android:textColor="#7C8AA0" android:textSize="18sp"/>
+</LinearLayout>
+</LinearLayout>
+<!-- Actions -->
+<Button android:id="@+id/btnGPing" android:layout_width="match_parent" android:layout_height="56dp" android:text="⚡ شروع مانیتورینگ" android:background="@drawable/btn_cyan" android:textColor="#FFFFFF" android:textSize="15sp" android:textStyle="bold" android:layout_marginTop="14dp"/>
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="8dp">
+<Button android:id="@+id/btnGBuffer" android:layout_width="0dp" android:layout_height="52dp" android:layout_weight="1" android:text="Bufferbloat" android:background="#1E293B" android:textColor="#F1F5F9"/>
+<Button android:id="@+id/btnGStability" android:layout_width="0dp" android:layout_height="52dp" android:layout_weight="1" android:text="پایداری ۵ دقیقه" android:background="#1E293B" android:textColor="#F1F5F9" android:layout_marginStart="8dp"/>
+</LinearLayout>
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="8dp">
+<Button android:id="@+id/btnGRoute" android:layout_width="0dp" android:layout_height="52dp" android:layout_weight="1" android:text="مسیر" android:background="#1E293B" android:textColor="#F1F5F9"/>
+<Button android:id="@+id/btnGDiag" android:layout_width="0dp" android:layout_height="52dp" android:layout_weight="1" android:text="Wi-Fi / موبایل" android:background="#1E293B" android:textColor="#F1F5F9" android:layout_marginStart="8dp"/>
+</LinearLayout>
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="8dp">
+<Button android:id="@+id/btnGVpn" android:layout_width="0dp" android:layout_height="52dp" android:layout_weight="1" android:text="مقایسه VPN" android:background="#1E293B" android:textColor="#F1F5F9"/>
+<Button android:id="@+id/btnGMatch" android:layout_width="0dp" android:layout_height="52dp" android:layout_weight="1" android:text="ثبت گزارش مسابقه" android:background="#1E293B" android:textColor="#F1F5F9" android:layout_marginStart="8dp"/>
+</LinearLayout>
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="8dp">
+<Button android:id="@+id/btnGChart" android:layout_width="0dp" android:layout_height="52dp" android:layout_weight="1" android:text="خروجی نمودار (PNG)" android:background="#1E293B" android:textColor="#F1F5F9"/>
+<Button android:id="@+id/btnGExport" android:layout_width="0dp" android:layout_height="52dp" android:layout_weight="1" android:text="خروجی CSV/JSON" android:background="#1E293B" android:textColor="#F1F5F9" android:layout_marginStart="8dp"/>
+</LinearLayout>
+<TextView android:id="@+id/tvGMain" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="" android:textColor="#94A3B8" android:textSize="14sp" android:layout_marginTop="12dp"/>
+<TextView android:id="@+id/tvGStats" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="هنوز تستی انجام نشده — دکمه‌ی تست پینگ را بزن." android:textColor="#E2E8F0" android:textSize="14sp" android:layout_marginTop="12dp"/>
+<TextView android:id="@+id/tvGDiag" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="" android:textColor="#CBD5E1" android:textSize="13sp" android:layout_marginTop="12dp"/>
+</LinearLayout>
+<LinearLayout android:id="@+id/sectionGHistory" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:visibility="gone">
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="تاریخچه گیمینگ" android:textColor="#F1F5F9" android:textSize="18sp" android:textStyle="bold" android:layout_marginTop="12dp"/>
+<TextView android:id="@+id/tvGHistory" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="" android:textColor="#CBD5E1" android:textSize="13sp" android:layout_marginTop="8dp"/>
+</LinearLayout>
+</LinearLayout>
+</ScrollView>

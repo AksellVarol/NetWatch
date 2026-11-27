@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:background="#0B1220">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="هوشمند" android:textColor="#F1F5F9" android:textSize="20sp" android:textStyle="bold"/>
+</LinearLayout>
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="هسته هوشمند NetWatch — تحلیل محلی شبکه، یافتن مکان دقیق ایرادها و گفت‌وگو با Muse. هسته در سرویس زندگی می‌کند و با خروج از صفحه نمی‌میرد." android:textColor="#64748B" android:textSize="13sp" android:layout_marginTop="4dp"/>
+<!-- Status card -->
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/card_bg" android:padding="14dp" android:layout_marginTop="14dp">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="وضعیت هسته" android:textColor="#F1F5F9" android:textSize="15sp" android:textStyle="bold"/>
+<TextView android:id="@+id/tvAiStatus" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="—" android:textColor="#CBD5E1" android:textSize="13sp" android:layout_marginTop="8dp"/>
+<Button android:id="@+id/btnAiAnalyze" android:layout_width="match_parent" android:layout_height="52dp" android:text="↻ تحلیل تازه" android:background="@drawable/btn_cyan" android:textColor="#FFFFFF" android:textSize="14sp" android:textStyle="bold" android:layout_marginTop="10dp"/>
+<Button android:id="@+id/btnAiShare" android:layout_width="match_parent" android:layout_height="52dp" android:text="ارسال به Muse" android:background="@drawable/btn_cyan" android:textColor="#FFFFFF" android:textSize="14sp" android:textStyle="bold" android:layout_marginTop="8dp" android:visibility="gone"/>
+<Button android:id="@+id/btnAiRefresh" android:layout_width="match_parent" android:layout_height="48dp" android:text="↻ تازه‌سازی" android:background="#1E293B" android:textColor="#F1F5F9" android:textSize="13sp" android:layout_marginTop="8dp"/>
+</LinearLayout>
+<!-- Question / chat -->
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/card_bg" android:padding="14dp" android:layout_marginTop="12dp">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="سوال از Muse" android:textColor="#F1F5F9" android:textSize="15sp" android:textStyle="bold"/>
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="سوال را بنویس؛ بسته سوال با آخرین تحلیل به Muse فرستاده می‌شود و پاسخ با اشتراک‌گذاری برمی‌گردد." android:textColor="#94A3B8" android:textSize="12sp" android:layout_marginTop="6dp"/>
+<EditText android:id="@+id/etAiQuestion" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="مثلاً: چرا با اینکه Loss صفر است، در بازی لگ دارم؟" android:textColor="#F1F5F9" android:textColorHint="#64748B" android:textSize="14sp" android:background="@drawable/card_bg" android:padding="12dp" android:layout_marginTop="10dp" android:inputType="textMultiLine" android:minLines="2"/>
+<Button android:id="@+id/btnAiAsk" android:layout_width="match_parent" android:layout_height="52dp" android:text="ارسال سوال" android:background="@drawable/btn_cyan" android:textColor="#FFFFFF" android:textSize="14sp" android:textStyle="bold" android:layout_marginTop="10dp"/>
+</LinearLayout>
+<!-- Latest analysis -->
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/card_bg" android:padding="14dp" android:layout_marginTop="12dp">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="آخرین تحلیل" android:textColor="#F1F5F9" android:textSize="15sp" android:textStyle="bold"/>
+<TextView android:id="@+id/tvAiLatest" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="هنوز تحلیلی نیست." android:textColor="#CBD5E1" android:textSize="13sp" android:layout_marginTop="8dp"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="یافته‌ها — مکان دقیق ایرادها" android:textColor="#F1F5F9" android:textSize="14sp" android:textStyle="bold" android:layout_marginTop="12dp"/>
+<TextView android:id="@+id/tvAiFindingsEmpty" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="یافتهٔ مشخصی نیست." android:textColor="#94A3B8" android:textSize="13sp" android:layout_marginTop="8dp"/>
+<LinearLayout android:id="@+id/aiFindingsContainer" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical"/>
+</LinearLayout>
+<!-- History -->
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/card_bg" android:padding="14dp" android:layout_marginTop="12dp">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="تاریخچه تحلیل‌ها" android:textColor="#F1F5F9" android:textSize="15sp" android:textStyle="bold"/>
+<TextView android:id="@+id/tvAiHistoryEmpty" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="هنوز تحلیلی ثبت نشده است." android:textColor="#94A3B8" android:textSize="13sp" android:layout_marginTop="8dp"/>
+<LinearLayout android:id="@+id/aiHistoryContainer" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical"/>
+<Button android:id="@+id/btnAiClear" android:layout_width="match_parent" android:layout_height="48dp" android:text="پاک کردن تاریخچه AI" android:background="#1E293B" android:textColor="#F1F5F9" android:textSize="13sp" android:layout_marginTop="12dp"/>
+</LinearLayout>
+</LinearLayout>
+</ScrollView>

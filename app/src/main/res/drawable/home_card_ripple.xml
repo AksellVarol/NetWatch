@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- v2.11.1 Phase 1b: ripple over the Home card background, for tappable
+     Home cards (speed tiles, info card). API 21+. -->
+<ripple xmlns:android="http://schemas.android.com/apk/res/android" android:color="#1E293B">
+    <item android:drawable="@drawable/home_card_bg"/>
+</ripple>

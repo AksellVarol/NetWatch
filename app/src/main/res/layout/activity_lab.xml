@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:background="#0B1220">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+<ImageView android:layout_width="26dp" android:layout_height="26dp" android:src="@drawable/ic_nav_flask"/>
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="NETWATCH LAB" android:textColor="#F1F5F9" android:textSize="20sp" android:textStyle="bold" android:layout_marginStart="10dp"/>
+</LinearLayout>
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Run comprehensive tests and verify app reliability" android:textColor="#64748B" android:textSize="13sp" android:layout_marginTop="4dp"/>
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="تست شبیه‌سازی‌شده ≠ تست واقعی شبکه. ناموفق‌ها پنهان نمی‌شوند. • Unit آفلاین است، Integration به اینترنت نیاز دارد." android:textColor="#64748B" android:textSize="12sp" android:layout_marginTop="2dp"/>
+<!-- Test rows -->
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/card_bg" android:paddingStart="14dp" android:paddingEnd="14dp" android:paddingTop="4dp" android:paddingBottom="4dp" android:layout_marginTop="14dp">
+<LinearLayout android:id="@+id/btnLabUnit" android:layout_width="match_parent" android:layout_height="60dp" android:orientation="horizontal" android:gravity="center_vertical" android:clickable="true" android:focusable="true">
+<ImageView android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_w_check"/>
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="10dp">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Unit Tests" android:textColor="#F1F5F9" android:textSize="14sp" android:textStyle="bold"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Core functionality tests" android:textColor="#94A3B8" android:textSize="11sp"/>
+</LinearLayout>
+<TextView android:id="@+id/tvBadgeUnit" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="#94A3B8" android:textSize="11sp" android:background="@drawable/badge_bg" android:paddingStart="10dp" android:paddingEnd="10dp" android:paddingTop="5dp" android:paddingBottom="5dp"/>
+</LinearLayout>
+<View android:layout_width="match_parent" android:layout_height="1dp" android:background="#1E293B"/>
+<LinearLayout android:id="@+id/btnLabIntegration" android:layout_width="match_parent" android:layout_height="60dp" android:orientation="horizontal" android:gravity="center_vertical" android:clickable="true" android:focusable="true">
+<ImageView android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_w_globe"/>
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="10dp">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Integration Tests" android:textColor="#F1F5F9" android:textSize="14sp" android:textStyle="bold"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Component integration" android:textColor="#94A3B8" android:textSize="11sp"/>
+</LinearLayout>
+<TextView android:id="@+id/tvBadgeIntegration" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="#94A3B8" android:textSize="11sp" android:background="@drawable/badge_bg" android:paddingStart="10dp" android:paddingEnd="10dp" android:paddingTop="5dp" android:paddingBottom="5dp"/>
+</LinearLayout>
+<View android:layout_width="match_parent" android:layout_height="1dp" android:background="#1E293B"/>
+<LinearLayout android:id="@+id/btnLabCross" android:layout_width="match_parent" android:layout_height="60dp" android:orientation="horizontal" android:gravity="center_vertical" android:clickable="true" android:focusable="true">
+<ImageView android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_w_wave"/>
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="10dp">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Cross Validation" android:textColor="#F1F5F9" android:textSize="14sp" android:textStyle="bold"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Result consistency" android:textColor="#94A3B8" android:textSize="11sp"/>
+</LinearLayout>
+<TextView android:id="@+id/tvBadgeCross" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="#94A3B8" android:textSize="11sp" android:background="@drawable/badge_bg" android:paddingStart="10dp" android:paddingEnd="10dp" android:paddingTop="5dp" android:paddingBottom="5dp"/>
+</LinearLayout>
+<View android:layout_width="match_parent" android:layout_height="1dp" android:background="#1E293B"/>
+<LinearLayout android:id="@+id/btnLabStress" android:layout_width="match_parent" android:layout_height="60dp" android:orientation="horizontal" android:gravity="center_vertical" android:clickable="true" android:focusable="true">
+<ImageView android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_w_bolt"/>
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="10dp">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Stress Tests" android:textColor="#F1F5F9" android:textSize="14sp" android:textStyle="bold"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="High load testing" android:textColor="#94A3B8" android:textSize="11sp"/>
+</LinearLayout>
+<TextView android:id="@+id/tvBadgeStress" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="#94A3B8" android:textSize="11sp" android:background="@drawable/badge_bg" android:paddingStart="10dp" android:paddingEnd="10dp" android:paddingTop="5dp" android:paddingBottom="5dp"/>
+</LinearLayout>
+<View android:layout_width="match_parent" android:layout_height="1dp" android:background="#1E293B"/>
+<LinearLayout android:id="@+id/btnLabSim" android:layout_width="match_parent" android:layout_height="60dp" android:orientation="horizontal" android:gravity="center_vertical" android:clickable="true" android:focusable="true">
+<ImageView android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_w_server"/>
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="10dp">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Network Simulation" android:textColor="#F1F5F9" android:textSize="14sp" android:textStyle="bold"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Simulate network conditions" android:textColor="#94A3B8" android:textSize="11sp"/>
+</LinearLayout>
+<TextView android:id="@+id/tvBadgeSim" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="#94A3B8" android:textSize="11sp" android:background="@drawable/badge_bg" android:paddingStart="10dp" android:paddingEnd="10dp" android:paddingTop="5dp" android:paddingBottom="5dp"/>
+</LinearLayout>
+<View android:layout_width="match_parent" android:layout_height="1dp" android:background="#1E293B"/>
+<LinearLayout android:id="@+id/btnLabStats" android:layout_width="match_parent" android:layout_height="60dp" android:orientation="horizontal" android:gravity="center_vertical" android:clickable="true" android:focusable="true">
+<ImageView android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_w_gauge"/>
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="10dp">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Statistical Validation" android:textColor="#F1F5F9" android:textSize="14sp" android:textStyle="bold"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Verify statistical accuracy" android:textColor="#94A3B8" android:textSize="11sp"/>
+</LinearLayout>
+<TextView android:id="@+id/tvBadgeStats" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="#94A3B8" android:textSize="11sp" android:background="@drawable/badge_bg" android:paddingStart="10dp" android:paddingEnd="10dp" android:paddingTop="5dp" android:paddingBottom="5dp"/>
+</LinearLayout>
+</LinearLayout>
+<Button android:id="@+id/btnLabAll" android:layout_width="match_parent" android:layout_height="56dp" android:text="↻ Run All Tests" android:background="@drawable/btn_cyan" android:textColor="#FFFFFF" android:textSize="15sp" android:textStyle="bold" android:layout_marginTop="14dp"/>
+<Button android:id="@+id/btnLabExport" android:layout_width="match_parent" android:layout_height="52dp" android:text="خروجی JSON + PDF" android:background="#1E293B" android:textColor="#F1F5F9" android:layout_marginTop="8dp"/>
+<TextView android:id="@+id/tvLabSummary" android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/card_bg" android:textColor="#F1F5F9" android:textSize="13sp" android:padding="12dp" android:layout_marginTop="10dp" android:text="هنوز تستی اجرا نشده است."/>
+<TextView android:id="@+id/tvLab" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="" android:textColor="#CBD5E1" android:textSize="13sp" android:layout_marginTop="12dp"/>
+</LinearLayout>
+</ScrollView>

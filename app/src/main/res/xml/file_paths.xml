@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- v2.9.6 — the shared report-export folder: Downloads/NetWatch/.
+     The project has no androidx FileProvider (zero dependencies), so legacy
+     (API 21-28) export files are served by the minimal read-only
+     ExportFileProvider; this file documents the shared folder path for
+     that provider and for any future file-sharing use. API 29+ shares the
+     MediaStore content Uri directly. -->
+<paths>
+    <external-path name="netwatch_downloads" path="Download/NetWatch/" />
+</paths>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="nw_bg">#070D1A</color>
+    <color name="nw_surface">#101A2E</color>
+    <color name="nw_surface2">#16233A</color>
+    <color name="nw_border">#1E293B</color>
+    <color name="nw_teal">#2DD4BF</color>
+    <color name="nw_teal_dark">#0D9488</color>
+    <!-- v2.11.0 Phase 1: electric-blue accent (One UI 6 style). Teal stays for
+         "healthy/active" status only; blue is the primary accent now. -->
+    <color name="nw_blue">#3B82F6</color>
+    <color name="nw_blue_light">#60A5FA</color>
+    <color name="nw_blue_dark">#1D4ED8</color>
+    <color name="nw_text">#F1F5F9</color>
+    <color name="nw_text2">#94A3B8</color>
+    <color name="nw_muted">#7C8AA0</color><!-- 4.96:1 on card bg, passes WCAG 4.5:1 (was #64748B at 3.65:1) -->
+    <color name="nw_green">#22C55E</color>
+    <color name="nw_red">#EF4444</color>
+    <color name="nw_amber">#F59E0B</color>
+    <color name="nw_nav_bg">#0C1424</color>
+</resources>

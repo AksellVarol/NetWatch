@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- NetWatch widget — matches the home-screen mockup (v2.3.2). All values are real data from the last check; sample numbers from the mockup are never shown. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/wRoot" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/widget_bg" android:padding="12dp">
+<!-- Header -->
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+<ImageView android:layout_width="36dp" android:layout_height="36dp" android:src="@drawable/ic_w_shield" android:contentDescription="NetWatch"/>
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="10dp">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="NetWatch" android:textColor="#F1F5F9" android:textSize="20sp" android:textStyle="bold"/>
+<TextView android:id="@+id/wVersion" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Internet Monitor" android:textColor="#7C8AA0" android:textSize="11sp"/>
+</LinearLayout>
+<LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal" android:background="@drawable/widget_live" android:paddingStart="10dp" android:paddingEnd="10dp" android:paddingTop="6dp" android:paddingBottom="6dp" android:gravity="center_vertical">
+<ImageView android:layout_width="8dp" android:layout_height="8dp" android:src="@drawable/dot"/>
+<TextView android:id="@+id/wLive" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Live" android:textColor="#22C55E" android:textSize="12sp" android:textStyle="bold" android:layout_marginStart="6dp"/>
+</LinearLayout>
+<Button android:id="@+id/wOverflow" android:layout_width="40dp" android:layout_height="40dp" android:text="⋮" android:background="@android:color/transparent" android:textColor="#F1F5F9" android:textSize="20sp" android:layout_marginStart="4dp"/>
+</LinearLayout>
+<!-- Status card -->
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:background="@drawable/widget_card" android:padding="12dp" android:layout_marginTop="12dp" android:gravity="center_vertical">
+<ImageView android:layout_width="52dp" android:layout_height="52dp" android:src="@drawable/ic_w_check" android:contentDescription="status"/>
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="12dp">
+<TextView android:id="@+id/wStatus" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Connected" android:textColor="#22C55E" android:textSize="20sp" android:textStyle="bold"/>
+<TextView android:id="@+id/wStatusSub" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Internet is healthy" android:textColor="#94A3B8" android:textSize="12sp" android:layout_marginTop="2dp"/>
+</LinearLayout>
+<ImageView android:layout_width="1dp" android:layout_height="44dp" android:background="#1E293B"/>
+<LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="vertical" android:gravity="center_horizontal" android:layout_marginStart="10dp">
+<ImageView android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_w_globe"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="International" android:textColor="#94A3B8" android:textSize="11sp" android:layout_marginTop="2dp"/>
+<TextView android:id="@+id/wIntl" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Active" android:textColor="#22C55E" android:textSize="12sp" android:textStyle="bold"/>
+</LinearLayout>
+<ImageView android:layout_width="1dp" android:layout_height="44dp" android:background="#1E293B" android:layout_marginStart="10dp"/>
+<LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="vertical" android:gravity="center_horizontal" android:layout_marginStart="10dp">
+<ImageView android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_w_doc"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Operator" android:textColor="#94A3B8" android:textSize="11sp" android:layout_marginTop="2dp"/>
+<TextView android:id="@+id/wOperator" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="#F1F5F9" android:textSize="12sp" android:textStyle="bold"/>
+</LinearLayout>
+</LinearLayout>
+<!-- Metric tiles -->
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="10dp">
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:background="@drawable/widget_tile" android:padding="10dp">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+<ImageView android:layout_width="16dp" android:layout_height="16dp" android:src="@drawable/ic_w_bolt"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Ping" android:textColor="#94A3B8" android:textSize="11sp" android:layout_marginStart="4dp"/>
+</LinearLayout>
+<TextView android:id="@+id/wPing" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="#F1F5F9" android:textSize="20sp" android:textStyle="bold" android:layout_marginTop="4dp"/>
+<TextView android:id="@+id/wPingSub" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Avg" android:textColor="#22C55E" android:textSize="11sp" android:textStyle="bold" android:layout_marginTop="2dp"/>
+</LinearLayout>
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:background="@drawable/widget_tile" android:padding="10dp" android:layout_marginStart="8dp">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+<ImageView android:layout_width="16dp" android:layout_height="16dp" android:src="@drawable/ic_w_wave"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Jitter" android:textColor="#94A3B8" android:textSize="11sp" android:layout_marginStart="4dp"/>
+</LinearLayout>
+<TextView android:id="@+id/wJitter" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="#F1F5F9" android:textSize="20sp" android:textStyle="bold" android:layout_marginTop="4dp"/>
+<TextView android:id="@+id/wJitterSub" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="mdev" android:textColor="#22C55E" android:textSize="11sp" android:textStyle="bold" android:layout_marginTop="2dp"/>
+</LinearLayout>
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:background="@drawable/widget_tile" android:padding="10dp" android:layout_marginStart="8dp">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+<ImageView android:layout_width="16dp" android:layout_height="16dp" android:src="@drawable/ic_w_alert"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Packet Loss" android:textColor="#94A3B8" android:textSize="11sp" android:layout_marginStart="4dp"/>
+</LinearLayout>
+<TextView android:id="@+id/wLoss" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="#F1F5F9" android:textSize="20sp" android:textStyle="bold" android:layout_marginTop="4dp"/>
+<TextView android:id="@+id/wLossSub" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="#22C55E" android:textSize="11sp" android:textStyle="bold" android:layout_marginTop="2dp"/>
+</LinearLayout>
+<LinearLayout android:id="@+id/wTileBuffer" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:background="@drawable/widget_tile" android:padding="10dp" android:layout_marginStart="8dp">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+<ImageView android:layout_width="16dp" android:layout_height="16dp" android:src="@drawable/ic_w_gauge"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Bufferbloat" android:textColor="#94A3B8" android:textSize="11sp" android:layout_marginStart="4dp"/>
+</LinearLayout>
+<TextView android:id="@+id/wBuffer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="#22C55E" android:textSize="20sp" android:textStyle="bold" android:layout_marginTop="4dp"/>
+<TextView android:id="@+id/wBufferSub" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="#22C55E" android:textSize="11sp" android:textStyle="bold" android:layout_marginTop="2dp"/>
+</LinearLayout>
+</LinearLayout>
+<!-- Latency chart card -->
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/widget_card" android:padding="12dp" android:layout_marginTop="10dp">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+<ImageView android:layout_width="18dp" android:layout_height="18dp" android:src="@drawable/ic_w_clock"/>
+<TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Latency (Last 60s)" android:textColor="#F1F5F9" android:textSize="13sp" android:textStyle="bold" android:layout_marginStart="6dp" android:maxLines="1"/>
+</LinearLayout>
+<TextView android:id="@+id/wChartStats" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Min: —  Avg: —  Max: —" android:textColor="#94A3B8" android:textSize="11sp" android:layout_marginTop="2dp" android:maxLines="2"/>
+<ImageView android:id="@+id/wGraph" android:layout_width="match_parent" android:layout_height="110dp" android:layout_marginTop="8dp" android:scaleType="fitXY"/>
+</LinearLayout>
+<!-- Live network statistics card (v2.9.6) — replaces the Game Profile / Server Region / Connection Type rows -->
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/widget_card" android:paddingStart="14dp" android:paddingEnd="14dp" android:paddingTop="8dp" android:paddingBottom="6dp" android:layout_marginTop="10dp">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+<ImageView android:layout_width="18dp" android:layout_height="18dp" android:src="@drawable/ic_w_wifi"/>
+<TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="LIVE NETWORK STATISTICS" android:textColor="#F1F5F9" android:textSize="12sp" android:textStyle="bold" android:layout_marginStart="6dp" android:maxLines="2"/>
+</LinearLayout>
+<TextView android:id="@+id/wNetAge" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Updated —" android:textColor="#94A3B8" android:textSize="11sp" android:layout_marginTop="2dp" android:maxLines="2"/>
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="8dp">
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Download Speed" android:textColor="#94A3B8" android:textSize="11sp"/>
+<TextView android:id="@+id/wNetDown" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="#F1F5F9" android:textSize="13sp" android:textStyle="bold" android:layout_marginTop="2dp"/>
+</LinearLayout>
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="8dp">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Upload Speed" android:textColor="#94A3B8" android:textSize="11sp"/>
+<TextView android:id="@+id/wNetUp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="#F1F5F9" android:textSize="13sp" android:textStyle="bold" android:layout_marginTop="2dp"/>
+</LinearLayout>
+</LinearLayout>
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="8dp">
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="DNS Latency" android:textColor="#94A3B8" android:textSize="11sp"/>
+<TextView android:id="@+id/wNetDns" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="#F1F5F9" android:textSize="13sp" android:textStyle="bold" android:layout_marginTop="2dp"/>
+</LinearLayout>
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="8dp">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Gateway Latency" android:textColor="#94A3B8" android:textSize="11sp"/>
+<TextView android:id="@+id/wNetGw" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="#F1F5F9" android:textSize="13sp" android:textStyle="bold" android:layout_marginTop="2dp"/>
+</LinearLayout>
+</LinearLayout>
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="8dp">
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Local IP" android:textColor="#94A3B8" android:textSize="11sp"/>
+<TextView android:id="@+id/wNetLocalIp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="#F1F5F9" android:textSize="12sp" android:textStyle="bold" android:layout_marginTop="2dp" android:singleLine="true" android:ellipsize="end"/>
+</LinearLayout>
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="8dp">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Public IP" android:textColor="#94A3B8" android:textSize="11sp"/>
+<TextView android:id="@+id/wNetPubIp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="#F1F5F9" android:textSize="12sp" android:textStyle="bold" android:layout_marginTop="2dp" android:singleLine="true" android:ellipsize="end"/>
+</LinearLayout>
+</LinearLayout>
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="8dp">
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Connection Type" android:textColor="#94A3B8" android:textSize="11sp"/>
+<TextView android:id="@+id/wNetConn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="#F1F5F9" android:textSize="13sp" android:textStyle="bold" android:layout_marginTop="2dp"/>
+</LinearLayout>
+<LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="8dp">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Data Usage" android:textColor="#94A3B8" android:textSize="11sp"/>
+<TextView android:id="@+id/wNetUsage" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="#F1F5F9" android:textSize="13sp" android:textStyle="bold" android:layout_marginTop="2dp"/>
+</LinearLayout>
+</LinearLayout>
+<ImageView android:layout_width="match_parent" android:layout_height="1dp" android:background="#1E293B" android:layout_marginTop="8dp"/>
+<LinearLayout android:layout_width="match_parent" android:layout_height="44dp" android:orientation="horizontal" android:gravity="center_vertical">
+<ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_w_shield"/>
+<TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Network Score" android:textColor="#CBD5E1" android:textSize="13sp" android:layout_marginStart="10dp"/>
+<TextView android:id="@+id/wScore" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="#22C55E" android:textSize="15sp" android:textStyle="bold"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="›" android:textColor="#7C8AA0" android:textSize="18sp" android:layout_marginStart="8dp"/>
+</LinearLayout>
+<ProgressBar android:id="@+id/wScoreBar" style="?android:attr/progressBarStyleHorizontal" android:layout_width="match_parent" android:layout_height="6dp" android:max="100" android:progress="0" android:progressDrawable="@drawable/score_bar" android:layout_marginBottom="8dp"/>
+</LinearLayout>
+<!-- Tip bar -->
+<LinearLayout android:id="@+id/wTipBar" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:background="@drawable/widget_card" android:padding="10dp" android:layout_marginTop="10dp" android:gravity="center_vertical">
+<ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_w_bulb"/>
+<TextView android:id="@+id/wTip" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="" android:textColor="#F1F5F9" android:textSize="13sp" android:layout_marginStart="10dp"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="›" android:textColor="#7C8AA0" android:textSize="18sp"/>
+</LinearLayout>
+</LinearLayout>

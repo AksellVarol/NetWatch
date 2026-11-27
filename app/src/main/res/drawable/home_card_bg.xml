@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- v2.11.1 Phase 1b: Home-only card background (16dp corners).
+     card_bg.xml (20dp) is UNTOUCHED and still used by the other pages. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/nw_surface"/>
+    <corners android:radius="16dp"/>
+    <stroke android:width="1dp" android:color="@color/nw_border"/>
+</shape>
